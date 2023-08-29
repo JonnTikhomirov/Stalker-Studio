@@ -57,7 +57,7 @@ namespace Stalker_Studio.StalkerClass
 
             File.WriteAllBytes(workDir + "\\tmp.dds", dds);
 
-            System.IO.File.WriteAllText($"{workDir}\\bat.bat", $"@chcp 1251{Environment.NewLine}cd {workDir}{Environment.NewLine}python DDS.py dtx3 png tmp.dds tmpDDS.png", Encoding.Default);
+            System.IO.File.WriteAllText($"{workDir}\\bat.bat", $"@chcp 1251{Environment.NewLine}cd {workDir}{Environment.NewLine}DDS.exe dtx3 png tmp.dds tmpDDS.png", Encoding.Default);
 
             ProcessStartInfo proc = new ProcessStartInfo($"{workDir}\\bat.bat") { CreateNoWindow = false, UseShellExecute = false, RedirectStandardOutput = true };
             Console.ForegroundColor = ConsoleColor.Red;

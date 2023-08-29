@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stalker_Studio.StalkerClass"
         mc:Ignorable="d"
-        Title="HintsWin" Height="100" Width="230" Background="#FF172033" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" WindowStyle="None">
+        Title="HintsWin" Height="100" Width="230" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" WindowStyle="None">
     <Grid>
-        <ListBox Background="#FF172033" Foreground="White" Name="list_hints" MouseDoubleClick="list_hints_MouseDoubleClick" KeyUp="list_hints_KeyUp"/>
+        <ListBox Foreground="White" Name="list_hints" MouseDoubleClick="list_hints_MouseDoubleClick" KeyUp="list_hints_KeyUp"/>
     </Grid>
 </Window>
