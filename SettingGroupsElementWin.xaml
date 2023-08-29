@@ -5,83 +5,66 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stalker_Studio"
         mc:Ignorable="d"
-        Title="Настройки параметров" Height="426" Width="750" Background="#FF151D2D" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
-    <Window.Resources>
-        <Style TargetType="TextBox">
-            <Setter Property="Background" Value="#FF172440"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-        <Style TargetType="Label">
-            <Setter Property="Background" Value="#FF151D2D"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-        <Style TargetType="TreeView">
-            <Setter Property="Background" Value="#FF172440"/>
-        </Style>
-        <Style TargetType="TreeViewItem">
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-        <Style TargetType="Button">
-            <Setter Property="Background" Value="#FF172440"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
+        Style="{StaticResource style_Window}"
+        Title="Настройки параметров" Height="426" Width="750" WindowStartupLocation="CenterOwner">
 
-        <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-
-
-            <Setter Property="BorderBrush" Value="#FF172440"></Setter>
-            <Setter Property="Background" Value="#FF172440"/>
-            <Setter Property="Foreground" Value="white"/>
-
-
-            <Setter Property="Template">
-
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type MenuItem}">
-
-                        <Border x:Name="Bd" Padding="17,0,17,0" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0 0 0 0" Background="{TemplateBinding Background}" SnapsToDevicePixels="True" Uid="Border_38">
-                            <ContentPresenter x:Name="ContentPresenter"  Content="{TemplateBinding Header}" ContentSource="Header" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Uid="ContentPresenter_33"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsHighlighted" Value="True">
-                                <Setter Property="Background" TargetName="Bd" Value="#FF172440"/>
-                                <Setter Property="BorderBrush" TargetName="Bd" Value="White"/>
-
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="BorderBrush" Value="Red"/>
-            <Setter Property="BorderThickness" Value="0 0 0 0"/>
-        </Style>
-
-    </Window.Resources>
     <Grid>
-        <TreeView Name="tree_parametr" Margin="446,0,0,0" Background="#FF172440" SelectedItemChanged="tree_parametr_SelectedItemChanged">
-            <TreeView.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Добавить группу" Click="MenuItem_Click_2"/>
-                    <MenuItem Header="Добавить параметр" Click="MenuItem_Click_1"/>
-                    <MenuItem Header="Удалить" Click="MenuItem_Click"/>
-                </ContextMenu>
-            </TreeView.ContextMenu>
-        </TreeView>
-        <Label HorizontalAlignment="Left" Background="#FF172440" VerticalAlignment="Top" Content="Внимание чтобы параметры вступили в силу нужно перезапустить Программу"/>
-        <Button HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="80" Height="25" Content="Назад" Name="btn_close" Click="btn_close_Click"/>
-        <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="80" Height="25" Content="Применить" Margin="0,0,304,0" Name="btn_inv" Click="btn_inv_Click"/>
-        <Grid Name="grid_workParametr" Visibility="Hidden">
-            <Label Name="lab_description" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,46,0,0" Content="Описание -"/>
-            <Label Name="lab_parametr" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,92,0,0" Content="Параметр -"/>
-            <TextBox Name="txt_description" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="73,50,0,0" Height="22" Width="366"/>
-            <TextBox Name="txt_parametr" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="73,96,0,0" Height="22" Width="366"/>
-
-            <Label Name="lab_space" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,141,0,0" Content="Пространство -"/>
-            <TextBox Name="txt_space" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="95,145,0,0" Height="22" Width="344"/>
-
-            <Label Name="lab_spaceTextBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,189,0,0" Content="Пространство TextBox -"/>
-            <TextBox Name="txt_spaceTextBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="139,193,0,0" Height="22" Width="300"/>
-        </Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="3"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <DockPanel>
+            <ToolBar DockPanel.Dock="Top">
+                <Button Content="Добавить группу" Click="MenuItem_Click_2"/>
+                <Button Content="Добавить параметр" Click="MenuItem_Click_1"/>
+                <Button Content="Удалить" Click="MenuItem_Click"/>
+            </ToolBar>
+            <TreeView Grid.Column="0" Name="tree_parametr" SelectedItemChanged="tree_parametr_SelectedItemChanged">
+                <TreeView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Добавить группу" Click="MenuItem_Click_2"/>
+                        <MenuItem Header="Добавить параметр" Click="MenuItem_Click_1"/>
+                        <MenuItem Header="Удалить" Click="MenuItem_Click"/>
+                    </ContextMenu>
+                </TreeView.ContextMenu>
+            </TreeView>
+        </DockPanel>
+        <DockPanel Grid.Column="2" Margin="6,0,6,6">
+            <Label Padding="0,6" DockPanel.Dock="Top" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Top" 
+                   Content="Для применения параметров требуется перезапуск"
+                   Background="{StaticResource brush_Border}"/>
+            <Grid DockPanel.Dock="Bottom">
+                <Button HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="Назад" Name="btn_close" Click="btn_close_Click"/>
+                <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="Применить" Name="btn_inv" Click="btn_inv_Click"/>
+            </Grid>
+            <StackPanel Margin="0,4,0,0" Name="grid_workParametr" Orientation="Vertical">
+                <BulletDecorator Margin="0,2">
+                    <BulletDecorator.Bullet>
+                        <Label Name="lab_description" Content="Описание -"/>
+                    </BulletDecorator.Bullet>
+                    <TextBox Name="txt_description" HorizontalAlignment="Stretch"/>
+                </BulletDecorator>
+                <BulletDecorator Margin="0,2">
+                    <BulletDecorator.Bullet>
+                        <Label Name="lab_parametr" Content="Параметр -"/>
+                    </BulletDecorator.Bullet>
+                    <TextBox Name="txt_parametr" HorizontalAlignment="Stretch"/>
+                </BulletDecorator>
+                <BulletDecorator Margin="0,2">
+                    <BulletDecorator.Bullet>
+                        <Label Name="lab_space" Content="Пространство -"/>
+                    </BulletDecorator.Bullet>
+                    <TextBox Name="txt_space" HorizontalAlignment="Stretch"/>
+                </BulletDecorator>
+                <BulletDecorator Margin="0,2">
+                    <BulletDecorator.Bullet>
+                        <Label Name="lab_spaceTextBox" Content="Пространство TextBox -"/>
+                    </BulletDecorator.Bullet>
+                    <TextBox Name="txt_spaceTextBox" HorizontalAlignment="Stretch"/>
+                </BulletDecorator>
+            </StackPanel>
+        </DockPanel>
+        <GridSplitter Grid.Column="1" ResizeDirection="Columns"/>
     </Grid>
 </Window>

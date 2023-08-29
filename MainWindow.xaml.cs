@@ -17,6 +17,7 @@ using System.Threading;
 using UI.SyntaxBox;
 using System.Diagnostics;
 using System.Windows.Interop;
+using Stalker_Studio.StalkerClass;
 
 namespace Stalker_Studio
 {
@@ -28,12 +29,9 @@ namespace Stalker_Studio
         public MainWindow()
         {
             InitializeComponent();
-            //C:\Games\STALKER Call of Pripyat\gamedata\configs\gameplay\character_desc_general.xml
-            //C:\Games\S.T.A.L.K.E.R. - Shadow Of Chernobyl\gamedata\config\gameplay\character_desc_escape.xml
 
-
-            img_cion_valerok.Source = MainWindow.BitmapToImageSource(new System.Drawing.Bitmap($"{System.Windows.Forms.Application.StartupPath}\\AddonSoft\\OGF_Editor\\icon_actor.png"));
-
+            InterfaceHelper.InitializeWindow(this);
+            InterfaceHelper.InitializeWindow(this);
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\t\t\t\tАвтор SDK: Кирилл Сухинин\n");
@@ -44,8 +42,6 @@ namespace Stalker_Studio
             Console.WriteLine("Network protocol: None V.0.0.0.0");
             Console.ForegroundColor = ConsoleColor.White;
 
-
-
             ProgramData.MainWinThread = this;
 
             if (Properties.Settings.Default.FirstStartUp)
@@ -55,35 +51,16 @@ namespace Stalker_Studio
                 b.ShowDialog();
             }
 
-
-            if (Properties.Settings.Default.RemoveColorLtx)
-            {
-                SyntaxBox.SetEnable(txt_ltx_file, false);
-
-                txt_ltx_file.Foreground = new SolidColorBrush(Colors.White);
-            }
-            if (Properties.Settings.Default.RemoveColorScript)
-            {
-                SyntaxBox.SetEnable(txt_script, false);
-                txt_script.Foreground = new SolidColorBrush(Colors.White);
-            }
-
             ProgramData.PasteLogic += PasteLogic_Script;
             HideChildrenMenu();
             SetSelectGamedata();
 
-           // txtSelectGamedata.Text = @"C:\Games\S.T.A.L.K.E.R. - Shadow Of Chernobyl\gamedata\config";
-            Init_LastOpen();
-
-            Initialize_CutDDS();
             Ini_Encoding();
             SetEncoding();
             InitializaterLtxParametrInWin();
             Hot_Key(MenuMain);
             OnStartUpArgs();
         }
-
-        
 
         Dictionary<string, string> ltx_parametr = new Dictionary<string, string>();
 
@@ -138,25 +115,6 @@ namespace Stalker_Studio
               //  text.TextChanged += text_TextChanged;
             }
         }
-
-        private void Init_LastOpen()
-        {
-
-         //   if (Properties.Settings.Default.LastOpenIndex.Length > 0)
-            {
-
-                string[] elements = Properties.Settings.Default.LastOpenIndex.Split(';');
-                list_lastOpen.Items.Clear();
-                foreach (var vEl in elements)
-                {
-                    if (Directory.Exists(vEl) || File.Exists(vEl))
-                    {
-                        list_lastOpen.Items.Add(vEl);
-                    }
-                }
-            }
-        }
-
 
         /// <summary>
         /// Создания интерфейса для параметров
@@ -231,156 +189,129 @@ namespace Stalker_Studio
                             }
                             AddToGroupElements(objI, Ispace, new string[] { vPrm.Value_Parametr.Trim() }, new FrameworkElement[] { new TextBox() { Name = $"prm_{vPrm.Name_Parametr.Trim()}",Tag = vPrm.Name_Parametr.Trim(),Width = ISpace2 } });
                         }
-                        tree_parametr.Items.Add(objI);
                     }
-
                 }
-
-                   // tree_parametr.Items.Add(itGroup);
-                   // tree_parametr.Items.Add(hud);
-                
 
                 foreach(var k in ltx_parametr.Keys)
                 {
+                    //((Label)(GetElementByName($"lab_prm_{k}"))).MouseRightButtonUp += (sender, e) =>
+                    //{
+                    //    ((TextBox)(GetElementByName($"prm_{k}"))).Focus();
+                    //};
 
-                    ((Label)(GetElementByName($"lab_prm_{k}"))).MouseRightButtonUp += (sender, e) =>
-                    {
-                        ((TextBox)(GetElementByName($"prm_{k}"))).Focus();
-                    };
+                    //((Label)(GetElementByName($"lab_prm_{k}"))).MouseDoubleClick += (sender, e) =>
+                    //{
+                    //    StalkerClass.HierarchyLtx.LtxFile file = new StalkerClass.HierarchyLtx.LtxFile(txt_ltx_file.Text);
+                    //    int indexCursor = txt_ltx_file.CaretOffset;
+                    //    string section = "";
+                    //    if (indexCursor >= 0)
+                    //    {
+                    //        foreach (var v in file.Sections)
+                    //        {
+                    //            int _index = txt_ltx_file.Text.IndexOf("[" + v.Name_Section + "]");
+                    //            if (indexCursor >= _index)
+                    //                section = v.Name_Section;
+                    //        }
 
-                    ((Label)(GetElementByName($"lab_prm_{k}"))).MouseDoubleClick += (sender, e) =>
-                    {
+                    //    }
 
-                        
-                        StalkerClass.HierarchyLtx.LtxFile file = new StalkerClass.HierarchyLtx.LtxFile(txt_ltx_file.Text);
-                        int indexCursor = txt_ltx_file.CaretIndex;
-                        string section = "";
-                        if (indexCursor >= 0)
-                        {
-                            
+                    //    if (NowSection != null)
+                    //        section = NowSection;
+                    //    else
+                    //        section = file.Sections[0].Name_Section;
+                    //    section = section.Split(':')[0];
 
-                            foreach (var v in file.Sections)
-                            {
-                                int _index = txt_ltx_file.Text.IndexOf("[" + v.Name_Section + "]");
-                                if (indexCursor >= _index)
-                                    section = v.Name_Section;
-                            }
+                    //    try
+                    //    {
+                    //        int a_offset = txt_ltx_file.Text.IndexOf(k);
+                    //        int b_offset = k.Length;
+                    //        int line_ = -1;
+                    //        for (int i = 0; i < txt_ltx_file.Text.Split('\n').Length; i++)
+                    //        {
+                    //            if (txt_ltx_file.Text.Split('\n')[i].StartsWith(k))
+                    //                line_ = i - 1;
+                    //        }
+                    //        txt_ltx_file.Focus();
+                    //        txt_ltx_file.Select(a_offset, b_offset);
+                    //        if (line_ != -1)
+                    //            txt_ltx_file.ScrollToLine(line_);
 
-                        }
+                    //    }
+                    //    catch
+                    //    {
 
-                        if (section == "" && ltx_section_list.SelectedIndex != -1)
-                            section = ((ListBoxItem)(ltx_section_list.SelectedItem)).Tag.ToString();
-                        else if (NowSection != null)
-                            section = NowSection;
-                        else
-                            section = file.Sections[0].Name_Section;
-                        section = section.Split(':')[0];
+                    //    }
+                    //};
 
+                    //((TextBox)(GetElementByName($"prm_{k}"))).MouseDoubleClick += (sender, e) =>
+                    //{
+                    //    ((Label)(GetElementByName($"lab_prm_{k}"))).Focus();
+                    //};
 
-                        try
-                        {
-
-                            int a_offset = txt_ltx_file.Text.IndexOf(k);
-                            int b_offset = k.Length;
-                            int line_ = -1;
-                            for (int i = 0; i < txt_ltx_file.Text.Split('\n').Length; i++)
-                            {
-                                if (txt_ltx_file.Text.Split('\n')[i].StartsWith(k))
-                                    line_ = i - 1;
-                            }
-                            txt_ltx_file.Focus();
-                            txt_ltx_file.Select(a_offset, b_offset);
-                            if (line_ != -1)
-                                txt_ltx_file.ScrollToLine(line_);
-
-                        }
-                        catch
-                        {
-
-                        }
-                        
-
-
-
-                    };
-
-
-                    ((TextBox)(GetElementByName($"prm_{k}"))).MouseDoubleClick += (sender, e) =>
-                    {
-                        ((Label)(GetElementByName($"lab_prm_{k}"))).Focus();
-                    };
-
-                    ((TextBox)(GetElementByName($"prm_{k}"))).KeyUp += (sender, e) =>
-                    {
-                        if (e.Key == Key.Enter)
-                        {
-                            if (!string.IsNullOrWhiteSpace(((TextBox)(GetElementByName($"prm_{k}"))).Text))
-                            {
-                                int indexCursor = txt_ltx_file.CaretIndex;
-                                string section = "";
-                                StalkerClass.HierarchyLtx.LtxFile file = new StalkerClass.HierarchyLtx.LtxFile(txt_ltx_file.Text);
-                                if (indexCursor >= 0)
-                                {
+                    //((TextBox)(GetElementByName($"prm_{k}"))).KeyUp += (sender, e) =>
+                    //{
+                    //    if (e.Key == Key.Enter)
+                    //    {
+                    //        if (!string.IsNullOrWhiteSpace(((TextBox)(GetElementByName($"prm_{k}"))).Text))
+                    //        {
+                    //            int indexCursor = txt_ltx_file.CaretOffset;
+                    //            string section = "";
+                    //            StalkerClass.HierarchyLtx.LtxFile file = new StalkerClass.HierarchyLtx.LtxFile(txt_ltx_file.Text);
+                    //            if (indexCursor >= 0)
+                    //            {
                                     
                                     
-                                    foreach (var v in file.Sections)
-                                    {
-                                        int _index = txt_ltx_file.Text.IndexOf("[" + v.Name_Section + "]");
-                                        if (indexCursor >= _index)
-                                            section = v.Name_Section;
-                                    }
+                    //                foreach (var v in file.Sections)
+                    //                {
+                    //                    int _index = txt_ltx_file.Text.IndexOf("[" + v.Name_Section + "]");
+                    //                    if (indexCursor >= _index)
+                    //                        section = v.Name_Section;
+                    //                }
 
-                                }
-                                if (section == "" && ltx_section_list.SelectedIndex != -1)
-                                    section = ((ListBoxItem)(ltx_section_list.SelectedItem)).Tag.ToString();
-                                else if (NowSection != null)
-                                    section = NowSection;
-                                else
-                                    section = file.Sections[0].Name_Section;
+                    //            }
 
-                                section = section.Split(':')[0];
+                    //            if (NowSection != null)
+                    //                section = NowSection;
+                    //            else
+                    //                section = file.Sections[0].Name_Section;
 
-                                if (file.Sections.Where(x => x.Name_Section == section).Count() > 0 && file.Sections.Where(x => x.Name_Section == section).First().Parametrs.Where(x => x.Name_Parametr == k).Count() > 0)
-                                {
-                                    file.Sections.Where(x => x.Name_Section == section).First().Parametrs.Where(x => x.Name_Parametr == k).First().Value_Parametr = ((TextBox)(GetElementByName($"prm_{k}"))).Text;
-                                    txt_ltx_file.Text = file.ToString();
+                    //            section = section.Split(':')[0];
 
-                                   // if (Properties.Settings.Default.AutoSave)
-                                    {
-                                        try
-                                        {
-                                            object[] result = CheckOnLtxGood(txt_ltx_file.Text);
-                                            if (!(bool)(result[0]))
-                                                throw new Exception($"Ошибка тэга! Line: {result[1]}");
-                                            string nameFile_ = OpenFileInputNow;
-                                            File.WriteAllText(nameFile_, txt_ltx_file.Text, ProgramData.Encoding_LTX);
+                    //            if (file.Sections.Where(x => x.Name_Section == section).Count() > 0 && file.Sections.Where(x => x.Name_Section == section).First().Parametrs.Where(x => x.Name_Parametr == k).Count() > 0)
+                    //            {
+                    //                file.Sections.Where(x => x.Name_Section == section).First().Parametrs.Where(x => x.Name_Parametr == k).First().Value_Parametr = ((TextBox)(GetElementByName($"prm_{k}"))).Text;
+                    //                txt_ltx_file.Text = file.ToString();
 
-                                        }
-                                        catch (Exception g)
-                                        {
-                                            //  MessageBox.Show($"Не удалось сохранить файл!\n[{g.Message}]", "Сохранение файла", MessageBoxButton.OK, MessageBoxImage.Error);
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    MessageBox.Show($"Ошибка параметров!\nОтсутствует секция или параметр!\nСекция: \"{section}\"\nПараметр: \"{k}\"\nИзмените настройки -> Параметры", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                                }
-                            }
-                        }
-                        HotKey_Function(sender, e);
-                    };
+                    //               // if (Properties.Settings.Default.AutoSave)
+                    //                {
+                    //                    try
+                    //                    {
+                    //                        object[] result = CheckOnLtxGood(txt_ltx_file.Text);
+                    //                        if (!(bool)(result[0]))
+                    //                            throw new Exception($"Ошибка тэга! Line: {result[1]}");
+                    //                        string nameFile_ = OpenFileInputNow;
+                    //                        File.WriteAllText(nameFile_, txt_ltx_file.Text, ProgramData.Encoding_LTX);
+
+                    //                    }
+                    //                    catch (Exception g)
+                    //                    {
+                    //                        //  MessageBox.Show($"Не удалось сохранить файл!\n[{g.Message}]", "Сохранение файла", MessageBoxButton.OK, MessageBoxImage.Error);
+                    //                    }
+                    //                }
+                    //            }
+                    //            else
+                    //            {
+                    //                MessageBox.Show($"Ошибка параметров!\nОтсутствует секция или параметр!\nСекция: \"{section}\"\nПараметр: \"{k}\"\nИзмените настройки -> Параметры", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    //            }
+                    //        }
+                    //    }
+                    //    HotKey_Function(sender, e);
+                    //};
 
                 }
 
-
                 //  AddToGroupElements(itGroup, 150, new string[] { "Цена-" }, new FrameworkElement[] { new TextBox() { Name = "prm_cost", Width = 50 } });
-
-
-
-
             }
-
         }
 
         private string InputNowParametr = null;
@@ -388,76 +319,73 @@ namespace Stalker_Studio
 
         private void Hot_Key(Grid parent)
         {
-            if(false)
-            {
-                foreach (FrameworkElement vs in prm_ltx_default.Children)
-                {
-                    vs.KeyUp += (sender, e) =>
-                    {
+            //if(false)
+            //{
+            //    foreach (FrameworkElement vs in prm_ltx_default.Children)
+            //    {
+            //        vs.KeyUp += (sender, e) =>
+            //        {
                         
-                        if (e.Key == Key.Down)
-                        {
-                            if ((((TreeViewItem)(treeBrowser.SelectedItem)).Parent) != null){
+            //            if (e.Key == Key.Down)
+            //            {
+            //                if ((((TreeViewItem)(treeBrowser.SelectedItem)).Parent) != null){
 
 
-                                for(int i = 0; i < ((TreeViewItem)(((TreeViewItem)(treeBrowser.SelectedItem)).Parent)).Items.Count; i++)
-                                {
-                                    if (((TreeViewItem)(((TreeViewItem)(treeBrowser.SelectedItem)).Parent)).Items[i] == (TreeViewItem)(treeBrowser.SelectedItem))
-                                    {
-                                        if(((TreeViewItem)(((TreeViewItem)(treeBrowser.SelectedItem)).Parent)).Items.Count < ((TreeViewItem)(((TreeViewItem)(treeBrowser.SelectedItem)).Parent)).Items.Count + 1)
-                                        {
-                                            try
-                                            {
-                                                ((TreeViewItem)(((TreeViewItem)(((TreeViewItem)(treeBrowser.SelectedItem)).Parent)).Items[i + 1])).IsSelected = true;
-                                                OpenFile(((TreeViewItem)(((TreeViewItem)(((TreeViewItem)(treeBrowser.SelectedItem)).Parent)).Items[i + 1])).Tag.ToString(), false);
+            //                    for(int i = 0; i < ((TreeViewItem)(((TreeViewItem)(treeBrowser.SelectedItem)).Parent)).Items.Count; i++)
+            //                    {
+            //                        if (((TreeViewItem)(((TreeViewItem)(treeBrowser.SelectedItem)).Parent)).Items[i] == (TreeViewItem)(treeBrowser.SelectedItem))
+            //                        {
+            //                            if(((TreeViewItem)(((TreeViewItem)(treeBrowser.SelectedItem)).Parent)).Items.Count < ((TreeViewItem)(((TreeViewItem)(treeBrowser.SelectedItem)).Parent)).Items.Count + 1)
+            //                            {
+            //                                try
+            //                                {
+            //                                    ((TreeViewItem)(((TreeViewItem)(((TreeViewItem)(treeBrowser.SelectedItem)).Parent)).Items[i + 1])).IsSelected = true;
+            //                                    OpenFile(((TreeViewItem)(((TreeViewItem)(((TreeViewItem)(treeBrowser.SelectedItem)).Parent)).Items[i + 1])).Tag.ToString(), false);
                                                 
                                                
-                                                break;
-                                            }
-                                            catch
-                                            {
+            //                                    break;
+            //                                }
+            //                                catch
+            //                                {
 
-                                            }
-                                        }
-                                    }
-                                }
+            //                                }
+            //                            }
+            //                        }
+            //                    }
 
-                            }
-                        }
-                        else if(e.Key == Key.Up)
-                        {
-                            if ((((TreeViewItem)(treeBrowser.SelectedItem)).Parent) != null)
-                            {
+            //                }
+            //            }
+            //            else if(e.Key == Key.Up)
+            //            {
+            //                if ((((TreeViewItem)(treeBrowser.SelectedItem)).Parent) != null)
+            //                {
 
 
-                                for (int i = 0; i < ((TreeViewItem)(((TreeViewItem)(treeBrowser.SelectedItem)).Parent)).Items.Count; i++)
-                                {
-                                    if (((TreeViewItem)(((TreeViewItem)(treeBrowser.SelectedItem)).Parent)).Items[i] == (TreeViewItem)(treeBrowser.SelectedItem))
-                                    {
-                                        if (((TreeViewItem)(((TreeViewItem)(treeBrowser.SelectedItem)).Parent)).Items.Count > ((TreeViewItem)(((TreeViewItem)(treeBrowser.SelectedItem)).Parent)).Items.Count - 1)
-                                        {
-                                            try
-                                            {
-                                                ((TreeViewItem)(((TreeViewItem)(((TreeViewItem)(treeBrowser.SelectedItem)).Parent)).Items[i - 1])).IsSelected = true;
-                                                OpenFile(((TreeViewItem)(((TreeViewItem)(((TreeViewItem)(treeBrowser.SelectedItem)).Parent)).Items[i - 1])).Tag.ToString(), false);
-                                                
-                                               
-                                                
-                                                break;
-                                            }
-                                            catch
-                                            {
+            //                    for (int i = 0; i < ((TreeViewItem)(((TreeViewItem)(treeBrowser.SelectedItem)).Parent)).Items.Count; i++)
+            //                    {
+            //                        if (((TreeViewItem)(((TreeViewItem)(treeBrowser.SelectedItem)).Parent)).Items[i] == (TreeViewItem)(treeBrowser.SelectedItem))
+            //                        {
+            //                            if (((TreeViewItem)(((TreeViewItem)(treeBrowser.SelectedItem)).Parent)).Items.Count > ((TreeViewItem)(((TreeViewItem)(treeBrowser.SelectedItem)).Parent)).Items.Count - 1)
+            //                            {
+            //                                try
+            //                                {
+            //                                    ((TreeViewItem)(((TreeViewItem)(((TreeViewItem)(treeBrowser.SelectedItem)).Parent)).Items[i - 1])).IsSelected = true;
+            //                                    OpenFile(((TreeViewItem)(((TreeViewItem)(((TreeViewItem)(treeBrowser.SelectedItem)).Parent)).Items[i - 1])).Tag.ToString(), false);
+            //                                    break;
+            //                                }
+            //                                catch
+            //                                {
 
-                                            }
-                                        }
-                                    }
-                                }
+            //                                }
+            //                            }
+            //                        }
+            //                    }
 
-                            }
-                        }
-                    };
-                }
-            }
+            //                }
+            //            }
+            //        };
+            //    }
+            //}
 
             foreach(object v in parent.Children) 
             {
@@ -470,8 +398,6 @@ namespace Stalker_Studio
                     ((FrameworkElement)(v)).KeyUp += HotKey_Function;
                 }
             }
-            
-
             //recursive method
         }
 
@@ -512,22 +438,7 @@ namespace Stalker_Studio
             {
                 Properties.Settings.Default.RemoveColorLtx = !Properties.Settings.Default.RemoveColorLtx;
                 Properties.Settings.Default.Save();
-
-
-                if (Properties.Settings.Default.RemoveColorLtx)
-                {
-                    SyntaxBox.SetEnable(txt_ltx_file, false);
-
-                    txt_ltx_file.Foreground = new SolidColorBrush(Colors.White);
-                }
-                else
-                {
-                    txt_ltx_file.Foreground = new SolidColorBrush(Colors.Black);
-                    SyntaxBox.SetEnable(txt_ltx_file, true);
-                }
-
             }
-
         }
 
         private void SetEncoding()
@@ -542,28 +453,6 @@ namespace Stalker_Studio
         }
 
         public StalkerClass.WordDescription Words = new StalkerClass.WordDescription();
-
-        private object GetElementByName(string nameElement)
-        {
-            foreach (TreeViewItem v in tree_parametr.Items)
-            {
-                foreach (Panel vChild in v.Items)
-                {
-                    foreach (FrameworkElement element in vChild.Children)
-                    {
-
-                        if (element.Name == nameElement)
-                        {
-                            return element;
-                        }
-
-                    }
-                }
-            }
-            return null;
-        }
-
-
 
         private void ClearLtxModeElement()
         {
@@ -934,8 +823,6 @@ namespace Stalker_Studio
             TreeViewItem it = new TreeViewItem();
             it.Header = mainGroup;
 
-
-
             for (int i = 0; i < NameElement.Length; i++)
             {
                 StackPanel panel = new StackPanel();
@@ -958,26 +845,20 @@ namespace Stalker_Studio
 
                 it.Items.Add(panel);
             }
-
-
-            tree_parametr.Items.Add(it);
         }
 
         public void HideChildrenMenu()
         {
             //dds
             parametr_dds.Visibility = Visibility.Hidden;
-            grid_open_file_dds.Visibility = Visibility.Hidden;
             //gamedata
            // browser.Visibility = Visibility.Hidden;
             SelectGamedata.Visibility = Visibility.Hidden;
             grid_ltx_file.Visibility = Visibility.Hidden;
-            parametr_ltx.Visibility = Visibility.Hidden;
             grid_ltx_mode.Visibility = Visibility.Hidden;
             grid_xml_string_text.Visibility = Visibility.Hidden;
             grid_script.Visibility = Visibility.Hidden;
             parametr_scripts.Visibility = Visibility.Hidden;
-            grid_ogf_editor.Visibility = Visibility.Hidden;
             parametr_ogf.Visibility = Visibility.Hidden;
             this.Title = "Stalker Studio";
             
@@ -1016,10 +897,8 @@ namespace Stalker_Studio
         public void SetSelectGamedata()
         {
             HideChildrenMenu();
-            Init_LastOpen();
             SelectGamedata.Visibility = Visibility.Visible;
             browser.Visibility = Visibility.Hidden;
-            toolTipHeaderFiles.Visibility = Visibility.Hidden;
             ProgramData.SeeDialogLoadXml = false;
             ProgramData.xmlStrings.Clear();
             ProgramData.LoaderXml = false;
@@ -1033,14 +912,14 @@ namespace Stalker_Studio
 
         private void txtSelectGamedata_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (Directory.Exists(txtSelectGamedata.Text) && txtSelectGamedata.Text.ToUpper().Contains("gamedata".ToUpper()))
-            {
-                ProgramData.Gamedata = txtSelectGamedata.Text;
-                SelectGamedata.Visibility = Visibility.Hidden;
-                browser.Visibility = Visibility.Visible;
+            //if (Directory.Exists(txtSelectGamedata.Text) && txtSelectGamedata.Text.ToUpper().Contains("gamedata".ToUpper()))
+            //{
+            //    ProgramData.Gamedata = txtSelectGamedata.Text;
+            //    SelectGamedata.Visibility = Visibility.Hidden;
+            //    browser.Visibility = Visibility.Visible;
 
-                ProgramData.LoadDataBrowser(ProgramData.Gamedata,treeBrowser);
-            }
+            //    ProgramData.LoadDataBrowser(ProgramData.Gamedata,treeBrowser);
+            //}
         }
 
         private void btnSelectGamedata_Click(object sender, RoutedEventArgs e)
@@ -1052,6 +931,9 @@ namespace Stalker_Studio
             if(folder.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 txtSelectGamedata.Text = folder.SelectedPath;
+
+                GamedataManager.This.SetRootAtPath(folder.SelectedPath);
+                ViewModel.Workspace.This.Browser.Root = GamedataManager.This.Root;
             }
         }
 
@@ -1100,329 +982,21 @@ namespace Stalker_Studio
         private string OpenFileInputNow = null;
         private string LastOpenFileInput = null;
 
-        private IntPtr WinOGFE = IntPtr.Zero;
-
-        private bool ISP_Editor()
-        {
-
-            IntPtr studioHandle = panel_ogf.Child.Handle;
-            
-            Process[] pros = Process.GetProcessesByName("OGF tool");
-            for (int i = 0; i < pros.Length; i++)
-            {
-                if (pros[i].MainWindowHandle != IntPtr.Zero)
-                {
-                    if (ApiWin.Native.GetTitle(pros[i].MainWindowHandle) == pros[i].MainWindowTitle && !string.IsNullOrWhiteSpace(pros[i].MainWindowTitle))
-                    {
-                        ApiWin.Native.SetParent(pros[i].MainWindowHandle, studioHandle);
-                        WinOGFE = pros[i].MainWindowHandle;
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-        const short SWP_NOZORDER = 0X4;
-        const int SWP_SHOWWINDOW = 0x0040;
-        private void SetSizeNoBorder()
-        {
-            int wid = (int)panel_ogf.RenderSize.Width;
-            int hei = (int)panel_ogf.RenderSize.Height;
-
-            Thread th = new Thread(() =>
-            {
-                ApiWin.Native.SetWindowPos(WinOGFE, 0, -10, -30, wid + 20, hei + 39, SWP_NOZORDER | SWP_SHOWWINDOW);
-            });
-            th.Start();
-        }
         private void OpenFile(string pathToFile,bool iniCurrentbrowser = true)
         {
 
             if (!File.Exists(pathToFile))
                 return;
 
-
             HideChildrenMenu();
-
 
             this.Title = "Visual Studio (Загрузка...)";
 
-
-
             bool wasOpen = false;
-            toolTipHeaderFiles.Visibility = Visibility.Visible;
-
-            if(WinOGFE != IntPtr.Zero)
-            {
-                Process[] cls = Process.GetProcessesByName("OGF tool");
-                for (int i = 0; i < cls.Length; i++)
-                {
-                    try
-                    {
-                        cls[i].Kill();
-                    }
-                    catch
-                    {
-
-                    }
-                }
-
-                Process[] cls2 = Process.GetProcessesByName("f3d");
-                for (int i = 0; i < cls2.Length; i++)
-                {
-                    try
-                    {
-                        cls2[i].Kill();
-                    }
-                    catch
-                    {
-
-                    }
-                }
-                WinOGFE = IntPtr.Zero;
-            }
 
             string nameFile = ProgramData.GetLastSplash(pathToFile);
-            if (nameFile.Split('.')[nameFile.Split('.').Length - 1].ToUpper() == "dds".ToUpper())
-            {
-                //dds mode
-                grid_open_file_dds.Visibility = Visibility.Visible;
-                parametr_dds.Visibility = Visibility.Visible;
-
-
-                //load on window
-                byte[] imgByte = File.ReadAllBytes(pathToFile);
-                StalkerClass.DDSImage ddsImag = new StalkerClass.DDSImage(imgByte);
-                if (ddsImag.IsValid)
-                {
-                    System.Drawing.Bitmap bts = ddsImag.BitmapImage;
-                    if (bts == null)
-                        return;
-                    image_dds.Width = bts.Width;
-                    image_dds.Height = bts.Height;
-                    /*
-                                        Line l = new Line();
-                                        l.X1 = 10;
-                                        l.X2 = 10;
-                                        l.Y1 = 50;
-
-
-                                        l.Stroke = new SolidColorBrush(Colors.Red);
-                                        l.StrokeThickness = 1;
-
-                                        draw_space.Children.Add(l);
-
-                                        Line l2 = new Line();
-                                        l2.X1 = 20;
-                                        l2.X2 = 20;
-                                        l2.Y1 = -50;
-                                       // l2.Y2 = 50;
-
-                                        l2.Stroke = new SolidColorBrush(Colors.Red);
-                                        l2.StrokeThickness = 1;
-
-                                        draw_space.Children.Add(l2);
-                    */
-
-
-
-                    if (ProgramData.Show_Setka_DDS)
-                    {
-                        for (int x = 0; x < bts.Width; x++)
-                        {
-                            if (x % StalkerClass.DDSImage.S_Y == 0)
-                            {
-                                for (int y = 0; y < bts.Height; y++)
-                                {
-                                    bts.SetPixel(x, y, System.Drawing.Color.Red);
-                                }
-                            }
-                        }
-                        for (int y = 0; y < bts.Height; y++)
-                        {
-                            if (y % StalkerClass.DDSImage.S_Y == 0)
-                            {
-                                for (int x = 0; x < bts.Width; x++)
-                                {
-                                    bts.SetPixel(x, y, System.Drawing.Color.Red);
-                                }
-                            }
-                        }
-                    }
-                    
-
-                    
-                    image_dds.Source = BitmapToImageSource(bts);
-                    bts.Dispose();
-
-                }
-                else
-                    MessageBox.Show("Не удалось открыть текстуру .dds!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                ddsImag.Dispose();
-                wasOpen = true;
-            }
-            else if (nameFile.Split('.')[nameFile.Split('.').Length - 1].ToUpper() == "ltx".ToUpper())
-            {
-                string txtFile = File.ReadAllText(pathToFile, ProgramData.Encoding_LTX);
-                StalkerClass.HierarchyLtx.LtxFile ltxF = new StalkerClass.HierarchyLtx.LtxFile(new FileInfo(pathToFile), ProgramData.Encoding_LTX);
-
-                if (Properties.Settings.Default.Mode_ltx_form)
-                {
-                    grid_ltx_file.Visibility = Visibility.Visible;
-                    parametr_ltx.Visibility = Visibility.Visible;
-                    tree_parametr.Visibility = Visibility.Visible;
-                    ltx_section_list.Visibility = Visibility.Visible;
-
-                    lab_con_heir.Visibility = Visibility.Visible;
-                    lab_con_name.Visibility = Visibility.Visible;
-                    lab_con_sect.Visibility = Visibility.Visible;
-                    txt_prm_section.Visibility = Visibility.Visible;
-                    txt_prm_heir.Visibility = Visibility.Visible;
-
-
-
-                    try
-                    {
-                        LtxLanguage.LtxData data = new LtxLanguage.LtxData(txtFile);
-
-                        Initialize_LTX_Parametr(data);
-
-                        int indexCursor = txt_ltx_file.CaretIndex;
-
-                        if (indexCursor >= 0)
-                        {
-                            string section = "";
-                            foreach (var v in data.LtxSectionDatas)
-                            {
-                                int _index = txt_ltx_file.Text.IndexOf("[" + v.NameSection + "]");
-                                if (indexCursor >= _index)
-                                    section = v.NameSection;
-                            }
-
-                            if (NowSection == null)
-                                NowSection = section;
-                            else section = NowSection;
-
-                            Load_Data_Change_Section(section);
-
-                            for (int i = 0; i < ltx_section_list.Items.Count; i++)
-                            {
-                                if (ltx_section_list.Items[i].ToString().Split(':')[0] == section)
-                                {
-                                    ltx_section_list.SelectedIndex = i;
-                                }
-                            }
-
-
-                        }
-
-                    }
-                    catch
-                    {
-
-                    }
-
-                }
-                else
-                {
-
-                    combo_section.Items.Clear();
-
-                    if(ltxF.Sections.Count <= 0)
-                    {
-                        Properties.Settings.Default.Mode_ltx_form = true;
-                        OpenFile(pathToFile, iniCurrentbrowser);
-                    }
-
-                    foreach(var vSect in ltxF.Sections)
-                    {
-                        combo_section.Items.Add(vSect.Name_Section);
-                    }
-
-
-                    if (combo_section.Items.Count > 0)
-                        combo_section.SelectedIndex = 0;
-
-                    grid_ltx_mode.Visibility = Visibility.Visible;
-                    parametr_ltx.Visibility = Visibility.Visible;
-                    tree_parametr.Visibility = Visibility.Hidden;
-                    ltx_section_list.Visibility = Visibility.Hidden;
-
-                    lab_con_heir.Visibility = Visibility.Hidden;
-                    lab_con_name.Visibility = Visibility.Hidden;
-                    lab_con_sect.Visibility = Visibility.Hidden;
-                    txt_prm_section.Visibility = Visibility.Hidden;
-                    txt_prm_heir.Visibility = Visibility.Hidden;
-                    ClearLtxModeElement();
-                    AddLtxModeElement(ltx_parametr,ltxF);
-                }
-                
-
-                txt_ltx_file.Text = txtFile;
-                wasOpen = true;
-                ltx_section_list.SelectedIndex = 0;
-
-                if (InputNowParametr != null)
-                {
-                    foreach (FrameworkElement el in tree_parametr.Items)
-                    {
-                        if (el is StackPanel)
-                        {
-                            StackPanel stack = (StackPanel)el;
-                            TextBox _el = (TextBox)stack.Children[1];
-                            Console.WriteLine(_el.Tag.ToString());
-                            if ( _el.Tag != null && _el.Tag.ToString() == InputNowParametr)
-                            {
-
-                                _el.Focus();
-                                _el.SelectAll();
-                                InputNowParametr = null;
-                                break;
-                            }
-                        }
-                    }
-
-                    foreach (FrameworkElement el in ltx_mode_elemetns.Children)
-                    {
-
-                        if (el is TextBox && el.Tag != null && el.Tag.ToString() == InputNowParametr)
-                        {
-                            el.Focus();
-                            ((TextBox)(el)).SelectAll();
-                            InputNowParametr = null;
-                            break;
-                        }
-                    }
-                }
-
-
-
-                // LtxLanguage.LtxData dat = new LtxLanguage.LtxData(File.ReadAllText(pathToFile,ProgramData.Encoding_LTX));
-
-
-                if (ltxF.Sections.Count > 0)
-                {
-                    NowSection = ltxF.Sections[0].Name_Section;
-                    Load_Data_Change_Section(NowSection);
-                }
-
-                //                        TextBox txt_cost = (TextBox)GetElementByName( "prm_" + ltx_parametr[vK]);
-                //txt_cost.Text = dat.LtxSectionDatas[0].GetParametr(ltx_parametr[vK]).DataParametr;
-                //
-
-                foreach (var vK in ltx_parametr.Keys)
-                {
-                    //TODO: HERE LOAD PARAMETR
-                    if (ltxF.Sections.Count > 0 && ltxF.Sections[0].Parametrs.Where(x => x.Name_Parametr == ltx_parametr[vK]).Count() > 0 && ltxF.Sections[0].Parametrs.Where(x => x.Name_Parametr == ltx_parametr[vK]).First() != null)
-                    {
-                        TextBox txt_const = (TextBox)GetElementByName("prm_" + ltx_parametr[vK]);
-                        txt_const.Text = ltxF.Sections[0].Parametrs.Where(x => x.Name_Parametr == ltx_parametr[vK]).First().Value_Parametr;
-                    }
-                }
-
-
-            }
-            else if(nameFile.Split('.')[nameFile.Split('.').Length - 1].ToUpper() == "xml".ToUpper())
+            
+            if(nameFile.Split('.')[nameFile.Split('.').Length - 1].ToUpper() == "xml".ToUpper())
             {
                 string xmlT = File.ReadAllText(pathToFile, ProgramData.Encoding_XML);
                 object[] res = StalkerClass.Xml.Xml_Text_File.CheckStringTextXml(xmlT);
@@ -1460,82 +1034,13 @@ namespace Stalker_Studio
                 ProgramData.Hints.InitializerDopHints(textScript);
                 wasOpen = true;
             }
-            else if(nameFile.Split('.')[nameFile.Split('.').Length - 1].ToUpper() == "ogf".ToUpper())
-            {
-                grid_ogf_editor.Visibility = Visibility.Visible;
-                parametr_ogf.Visibility = Visibility.Visible;
-
-                Process[] cls = Process.GetProcessesByName("OGF tool");
-                for (int i = 0; i < cls.Length; i++)
-                {
-                    try
-                    {
-                        cls[i].Kill();
-                    }
-                    catch
-                    {
-
-                    }
-                }
-                Process[] cls2 = Process.GetProcessesByName("f3d");
-                for (int i = 0; i < cls2.Length; i++)
-                {
-                    try
-                    {
-                        cls2[i].Kill();
-                    }
-                    catch
-                    {
-
-                    }
-                }
-
-                if (Directory.Exists(ProgramData.Gamedata + "\\textures"))
-                {
-                    if (browser_textures.Items.Count <= 0)
-                    {
-                        ProgramData.LoadDataBrowser(ProgramData.Gamedata + "\\textures", browser_textures, null, this, false);
-
-                        if (browser_textures.Items.Count >= 1)
-                            (browser_textures.Items[0] as TreeViewItem).IsExpanded = true;
-                    }
-                }
-
-                string pathEXE = $"{System.Windows.Forms.Application.StartupPath}\\AddonSoft\\OGF_Editor\\OGF tool.exe";
-                Process.Start(pathEXE,$"\"{pathToFile}\"");
-                while(!ISP_Editor())
-                {
-                    System.Threading.Thread.Sleep(50);
-                }
-                SetSizeNoBorder();
-                wasOpen = true;
-
-
-            }
             else
             {
                 return;
             }
            if (wasOpen)
             {
-                    Initialize_Pre_Icon();
-                bool _hInL = false;
-                foreach(ListBoxItem v in toolTipHeaderFiles.Items) {
-                    if(v.Tag != null && ((FileInfo)(v.Tag)).FullName == pathToFile)
-                    {
-                        _hInL = true;
-                        v.IsSelected = true;
-                        break;
-                    }
-                }
-                if (!_hInL)
-                {
-                    ListBoxItem it = new ListBoxItem();
-                    it.Content = nameFile;
-                    it.Tag = new FileInfo(pathToFile);
-                    toolTipHeaderFiles.Items.Add(it);
-                    it.IsSelected = true;
-                }
+               Initialize_Pre_Icon();
 
                 if (iniCurrentbrowser && treeBrowser.Items.Count > 0)
                     setCurrentElementBrowser((TreeViewItem)treeBrowser.Items[0], pathToFile);
@@ -1554,7 +1059,6 @@ namespace Stalker_Studio
             {
                 this.Title = "Visual Studio";
             }
-
         }
 
         private void OpenParent(TreeViewItem inputItem)
@@ -1596,29 +1100,6 @@ namespace Stalker_Studio
             }
         }
 
-        private void Btn_save_dds_png_Click(object sender, RoutedEventArgs e)
-        {
-            if(image_dds.Source != null)
-            {
-                System.Windows.Forms.SaveFileDialog saveF = new System.Windows.Forms.SaveFileDialog();
-                
-                saveF.Title = "Сохранить как .png";
-                saveF.Filter = "PNG|*.png";
-                if (saveF.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    string output = saveF.FileName;
-
-                    System.Drawing.Bitmap bts = FromSourceImage((BitmapImage)image_dds.Source);
-                    bts.Save(output, System.Drawing.Imaging.ImageFormat.Png);
-
-                 //   MemoryStream str = new MemoryStream();
-                 //   str = (MemoryStream)((BitmapImage)(image_dds.Source)).StreamSource;
-                  //  File.WriteAllBytes(output, str.ToArray());
-                    MessageBox.Show("Файл .png успешно сохранён.", "Файл сохранён", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-            }
-        }
-
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Forms.OpenFileDialog file = new System.Windows.Forms.OpenFileDialog();
@@ -1634,32 +1115,8 @@ namespace Stalker_Studio
                 {
                     Properties.Settings.Default.LastOpenIndex += file.FileName + ";";
                     Properties.Settings.Default.Save();
-                    Init_LastOpen();
                 }
                 OpenFile(file.FileName);
-
-            }
-
-            
-
-        }
-
-        private void Initialize_LTX_Parametr(LtxLanguage.LtxData data)
-        {
-
-            ltx_section_list.Items.Clear();
-            foreach(var v in data.LtxSectionDatas)
-            {
-                string str = v.NameSection;
-                if (!string.IsNullOrWhiteSpace(v.Heir))
-                    str += ":" + v.Heir;
-
-                ListBoxItem it = new ListBoxItem();
-                it.Content = str.Split(';')[0];
-                it.Tag = str.Split(';')[0].Split(':')[0];
-
-
-                ltx_section_list.Items.Add(it);
             }
         }
 
@@ -1667,7 +1124,6 @@ namespace Stalker_Studio
         {
             if (txt_ltx_file.Text.Contains("inv_grid") && FindIconDDS() != null)
             {
-                img_pre_icon.Visibility = Visibility.Visible;
                 StalkerClass.DDSImage dds = new StalkerClass.DDSImage(File.ReadAllBytes(FindIconDDS()));
 
                 int x = -1;
@@ -1725,8 +1181,6 @@ namespace Stalker_Studio
                     }
                 }
 
-
-
                 if (x != -1 && y != -1)
                 {
                     if(w == -1 || h == -1)
@@ -1736,139 +1190,23 @@ namespace Stalker_Studio
                     }
 
                     System.Drawing.Bitmap btsI = StalkerClass.DDSImage.GetIcon(dds.BitmapImage, x, y, w, h);
-                    img_pre_icon.Source = BitmapToImageSource(btsI);
+                    //img_pre_icon.Source = BitmapToImageSource(btsI);
                 }
                 else
                 {
-                    img_pre_icon.Visibility = Visibility.Hidden;
+                    //img_pre_icon.Visibility = Visibility.Hidden;
                 }
 
             }
             else
             {
-                img_pre_icon.Visibility = Visibility.Hidden;
+                //img_pre_icon.Visibility = Visibility.Hidden;
             }
-        }
-
-
-
-
-        private void txt_ltx_file_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void Load_Data_Change_Section(string section)
-        {
-            if (string.IsNullOrWhiteSpace(section))
-                return;
-            txt_prm_heir.Text = "";
-            txt_prm_section.Text = "";
-
-            section = section.Trim().Trim('[', ']');
-
-            StalkerClass.HierarchyLtx.LtxFile ltxF = new StalkerClass.HierarchyLtx.LtxFile(txt_ltx_file.Text);
-            //LtxLanguage.LtxData dat = new LtxLanguage.LtxData(txt_ltx_file.Text);
-
-            if (ltxF.Sections.Where(x => x.Name_Section == section).Count() > 0)
-            {
-                txt_prm_heir.Text = ltxF.Sections.Where(x => x.Name_Section == section).First().Heir_Section;
-               // Console.WriteLine(ltxF.Sections.Where(x => x.Name_Section == section).First().Heir_Section);
-                txt_prm_section.Text = ltxF.Sections.Where(x => x.Name_Section == section).First().Name_Section;
-                LastSection = txt_prm_section.Text;
-                LastHeir = txt_prm_heir.Text;
-            }
-
-
-
-
-            foreach (var vK in ltx_parametr.Keys)
-            {
-                //TODO: HERE LOAD PARAMETR
-                if (ltxF.Sections.Count > 0 && ltxF.Sections.Where(x => x.Name_Section == section).Count() > 0 && ltxF.Sections.Where(x => x.Name_Section == section).First().Parametrs.Where(x => x.Name_Parametr == vK).Count() > 0 && ltxF.Sections.Where(x => x.Name_Section == section).First().Parametrs.Where(x => x.Name_Parametr == vK).First() != null)
-                {
-                    TextBox txt_const = (TextBox)GetElementByName("prm_" + vK);
-                    txt_const.Text = ltxF.Sections.Where(x => x.Name_Section == section).First().Parametrs.Where(x => x.Name_Parametr == vK).First().Value_Parametr;
-                }
-                else
-                {
-                    TextBox txt_const = (TextBox)GetElementByName("prm_" + vK);
-                    txt_const.Text = "";
-                }
-            }
-
-
         }
 
         private string LastSection;
         private string LastHeir;
-
         private string NowSection;
-
-        private void ltx_section_list_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if(ltx_section_list.SelectedIndex != -1)
-            {
-                try
-                {
-                    Initialize_Pre_Icon();
-                    //txt_ltx_file.Select()
-                    string sect = "[" + ((ListBoxItem)(ltx_section_list.SelectedItem)).Tag.ToString().Split(':')[0] + "]";
-                    if (((ListBoxItem)(ltx_section_list.SelectedItem)).Tag.ToString().Split(':').Length > 1)
-                        sect += ":" + ((ListBoxItem)(ltx_section_list.SelectedItem)).Tag.ToString().Split(':')[1];
-                    int a_offset = txt_ltx_file.Text.IndexOf(sect);
-                    int b_offset = sect.Length;
-                    int line_ = -1;
-                    for (int i = 0; i < txt_ltx_file.Text.Split('\n').Length; i++)
-                    {
-                        if (txt_ltx_file.Text.Split('\n')[i].StartsWith(sect))
-                            line_ = i - 1;
-                    }
-
-                    txt_ltx_file.Select(a_offset, b_offset);
-                    if (line_ != -1)
-                        txt_ltx_file.ScrollToLine(line_);
-
-                    txt_ltx_file.Focus();
-                    NowSection = sect.Replace("[", "").Replace("]", "");
-                    Load_Data_Change_Section(sect.Split(':')[0]);
-
-                }
-                catch
-                {
-
-                }
-
-            }
-        }
-
-
-        private void txt_prm_section_KeyUp(object sender, KeyEventArgs e)
-        {
-            if(e.Key == Key.Enter && !string.IsNullOrWhiteSpace(txt_prm_section.Text))
-            {
-
-                if (LastSection == null || txt_prm_section.Text == LastSection)
-                    return;
-                txt_ltx_file.Text = txt_ltx_file.Text.Replace("["+LastSection+"]", "["+txt_prm_section.Text+"]");
-                LastSection = txt_prm_section.Text;
-
-                
-            }
-        }
-
-        private void crt_section_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                txt_ltx_file.Text += Environment.NewLine + "[wpn_NewGun]";
-                Load_Data_Change_Section("wpn_NewGun");
-            }
-            catch
-            {
-
-            }
-        }
 
         private object[] CheckOnLtxGood(string allLtx)
         {
@@ -1887,43 +1225,6 @@ namespace Stalker_Studio
 
             return new object[] { true, -1 };
         }
-
-        private void btn_ltx_save_Click(object sender, RoutedEventArgs e)
-        {
-            //TODO: Реализовать сохранения для !Mode_Ltx_Form
-            try
-            {
-                if (Properties.Settings.Default.Mode_ltx_form)
-                {
-                    LtxLanguage.LtxData datCheck = new LtxLanguage.LtxData(txt_ltx_file.Text);
-                    object[] result = CheckOnLtxGood(txt_ltx_file.Text);
-                    if (!(bool)(result[0]))
-                        throw new Exception($"Ошибка тэга! Line: {result[1]}");
-                    string nameFile = OpenFileInputNow;
-                    File.WriteAllText(nameFile, txt_ltx_file.Text, ProgramData.Encoding_LTX);
-                    MessageBox.Show("Файл .ltx успешно сохранён", "Сохранение файла", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                else
-                {
-                    //ltx_mode_elemetns
-
-                    foreach(FrameworkElement txtElements in ltx_mode_elemetns.Children)
-                    {
-                        if(txtElements is TextBox && txtElements.Tag != null)
-                        {
-                            Console.WriteLine(txtElements.Tag.ToString());
-                            SaveModeparametrNoEvent(txtElements as TextBox);
-                        }
-                    }
-                    MessageBox.Show("Файл .ltx успешно сохранён [!ModeLtx]", "Сохранение файла", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-            }
-            catch(Exception g)
-            {
-                MessageBox.Show($"Не удалось сохранить файл!\n[{g.Message}]", "Сохранение файла", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
 
         private void GoNext(bool message = false)
         {
@@ -1955,130 +1256,6 @@ namespace Stalker_Studio
                       //  OpenFile(ProgramData.Gamedata + "\\" + par.Value_Parametr);
                     }
                 }
-            }
-        }
-        private Key KeyLast_Ltx_Up;
-        private void txt_ltx_file_KeyUp(object sender, KeyEventArgs e)
-        {
-            //TODO: here do dialog text windows for find words
-            //algoritm:
-            //contain
-            //indexof
-            //set cursor
-            //scroll line
-
-            if(e.Key == Key.Enter)
-            {
-                try
-                {
-                    LtxLanguage.LtxData data = new LtxLanguage.LtxData(txt_ltx_file.Text);
-
-                    Initialize_LTX_Parametr(data);
-
-                    int indexCursor = txt_ltx_file.CaretIndex;
-
-                    if (indexCursor >= 0)
-                    {
-                        string section = "";
-                        foreach (var v in data.LtxSectionDatas)
-                        {
-                            int _index = txt_ltx_file.Text.IndexOf("[" + v.NameSection + "]");
-                            if (indexCursor >= _index)
-                                section = v.NameSection;
-                        }
-
-                        if (NowSection == null)
-                            NowSection = section;
-                        else section = NowSection;
-
-                        Load_Data_Change_Section(section);
-
-                        for (int i = 0; i < ltx_section_list.Items.Count; i++)
-                        {
-                            if (ltx_section_list.Items[i].ToString().Split(':')[0] == section)
-                            {
-
-                                ltx_section_list.SelectedIndex = i;
-                            }
-                        }
-
-
-                    }
-
-                }
-                catch
-                {
-
-                }
-            }
-
-            if(e.Key == Key.F1)
-            {
-                GoNext();
-            }
-            if (KeyLast_Ltx_Up == Key.LeftCtrl && e.Key == Key.S || e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.S)
-            {
-                string origTitle = this.Title;
-                try
-                {
-                    LtxLanguage.LtxData datCheck = new LtxLanguage.LtxData(txt_ltx_file.Text);
-                    object[] result = CheckOnLtxGood(txt_ltx_file.Text);
-                    if (!(bool)(result[0]))
-                        throw new Exception($"Ошибка тэга! Line: {result[1]}");
-                    string nameFile_ = OpenFileInputNow;
-                    File.WriteAllText(nameFile_, txt_ltx_file.Text, ProgramData.Encoding_LTX);
-
-                    if (!this.Title.Contains("(Конфиг сохранён)"))
-                    {
-                        this.Title += " (Конфиг сохранён)";
-                        Thread th = new Thread(() =>
-                        {
-                            Thread.Sleep(600);
-                            this.Dispatcher.Invoke(new Action(() =>
-                            {
-                                this.Title = origTitle;
-                            }));
-                        });
-                        th.IsBackground = true;
-                        th.Start();
-                    }
-
-                }
-                catch (Exception g)
-                {
-                    MessageBox.Show($"Не удалось сохранить файл!\n[{g.Message}]", "Сохранение файла", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-            KeyLast_Ltx_Up = e.Key;
-        }
-
-        private void txt_prm_heir_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(txt_prm_heir.Text) && e.Key == Key.Enter)
-            {
-                txt_ltx_file.Text = txt_ltx_file.Text.Replace($"[{LastSection}]:{LastHeir}", $"[{LastSection}]:{txt_prm_heir.Text}");
-                LastHeir = txt_prm_heir.Text;
-            }
-        }
-
-        private void del_section_Click(object sender, RoutedEventArgs e)
-        {
-            if (ltx_section_list.SelectedIndex != -1 && ltx_section_list.SelectedIndex + 1 < ltx_section_list.Items.Count)
-            {
-                string nameSection = "[" + ((ListBoxItem)(ltx_section_list.SelectedItem)).Tag.ToString().Split(':')[0] + "]";
-
-                int startIndex = txt_ltx_file.Text.IndexOf(nameSection);
-
-
-                string nextSection = "[" + ((ListBoxItem)(ltx_section_list.Items[ltx_section_list.SelectedIndex + 1])).Tag.ToString().Split(':')[0] + "]";
-                int endIndex = txt_ltx_file.Text.IndexOf(nextSection)-startIndex;
-                txt_ltx_file.Text = txt_ltx_file.Text.Remove(startIndex, endIndex);
-            }
-            else if(ltx_section_list.SelectedIndex != -1)
-            {
-                string nameSection = "[" + ((ListBoxItem)(ltx_section_list.SelectedItem)).Tag.ToString().Split(':')[0] + "]";
-                int startIndex = txt_ltx_file.Text.IndexOf(nameSection);
-                txt_ltx_file.Text = txt_ltx_file.Text.Remove(startIndex, txt_ltx_file.Text.Length-startIndex);
             }
         }
 
@@ -2143,7 +1320,6 @@ namespace Stalker_Studio
                     {
                         Properties.Settings.Default.LastOpenIndex += ProgramData.Gamedata + ";";
                         Properties.Settings.Default.Save();
-                        Init_LastOpen();
                     }
                 }
                 ProgramData.LoadDataBrowser(ProgramData.Gamedata,treeBrowser);
@@ -2154,8 +1330,6 @@ namespace Stalker_Studio
             }
             else if (File.Exists(txtSelectGamedata.Text) && e.Key == Key.Enter)
             {
-                if (list_lastOpen.SelectedIndex != -1)
-                    txtSelectGamedata.Text = list_lastOpen.SelectedItem.ToString();
                 SelectGamedata.Visibility = Visibility.Hidden;
                 browser.Visibility = Visibility.Visible;
                 OpenFile(txtSelectGamedata.Text);
@@ -2198,75 +1372,58 @@ namespace Stalker_Studio
 
         }
 
-        private void Initialize_CutDDS(int x = -1,int y =-1 ,int width = -1,int heigth = -1)
-        {
-            LtxLanguage.LtxData dat = new LtxLanguage.LtxData($"[grid_sect]\ninv_grid_x = {x}\ninv_grid_y = {y}\ninv_grid_width = {width}\ninv_grid_height = {heigth}");
-            txt_dds_grid.Text = dat.ToString().Replace("\t", " ");
-        }
-
-
-
         private void btn_grid_clear_dds_Click(object sender, RoutedEventArgs e)
         {
-            Initialize_CutDDS();
             OpenFile(OpenFileInputNow);
         }
 
-        private void txt_dds_grid_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                CutDDS();
-            }
-        }
+        //private void CutDDS()
+        //{
+        //    //HERE LOGIC FOR WPN
+        //    //TODO: переделать логику cut для other dds
+        //    LtxLanguage.LtxData dat = new LtxLanguage.LtxData(txt_dds_grid.Text);
+        //    if (dat.LtxSectionDatas.Count >= 1 && dat.LtxSectionDatas[0].GetParametr("inv_grid_x") != null && dat.LtxSectionDatas[0].GetParametr("inv_grid_y") != null && dat.LtxSectionDatas[0].GetParametr("inv_grid_width") != null && dat.LtxSectionDatas[0].GetParametr("inv_grid_height") != null)
+        //    {
+        //        try
+        //        {
+        //            StalkerClass.DDSImage dds = new StalkerClass.DDSImage(File.ReadAllBytes(FindIconDDS()));
+        //            int x = int.Parse(dat.LtxSectionDatas[0].GetParametr("inv_grid_x").DataParametr);
+        //            int y = int.Parse(dat.LtxSectionDatas[0].GetParametr("inv_grid_y").DataParametr);
+        //            int w = int.Parse(dat.LtxSectionDatas[0].GetParametr("inv_grid_width").DataParametr);
+        //            int h = int.Parse(dat.LtxSectionDatas[0].GetParametr("inv_grid_height").DataParametr);
+        //            if (x != -1 && y != -1 && w != -1 && h != -1)
+        //            {
+        //                try
+        //                {
+        //                    if (image_dds.Source == null)
+        //                        return;
+        //                    System.Drawing.Bitmap icon = StalkerClass.DDSImage.GetIcon(dds.BitmapImage, x, y, w, h);
+        //                    if (icon == null)
+        //                        return;
+        //                    image_dds.Width = icon.Width;
+        //                    image_dds.Height = icon.Height;
 
-        private void CutDDS()
-        {
-            //HERE LOGIC FOR WPN
-            //TODO: переделать логику cut для other dds
-            LtxLanguage.LtxData dat = new LtxLanguage.LtxData(txt_dds_grid.Text);
-            if (dat.LtxSectionDatas.Count >= 1 && dat.LtxSectionDatas[0].GetParametr("inv_grid_x") != null && dat.LtxSectionDatas[0].GetParametr("inv_grid_y") != null && dat.LtxSectionDatas[0].GetParametr("inv_grid_width") != null && dat.LtxSectionDatas[0].GetParametr("inv_grid_height") != null)
-            {
-                try
-                {
-                    StalkerClass.DDSImage dds = new StalkerClass.DDSImage(File.ReadAllBytes(FindIconDDS()));
-                    int x = int.Parse(dat.LtxSectionDatas[0].GetParametr("inv_grid_x").DataParametr);
-                    int y = int.Parse(dat.LtxSectionDatas[0].GetParametr("inv_grid_y").DataParametr);
-                    int w = int.Parse(dat.LtxSectionDatas[0].GetParametr("inv_grid_width").DataParametr);
-                    int h = int.Parse(dat.LtxSectionDatas[0].GetParametr("inv_grid_height").DataParametr);
-                    if (x != -1 && y != -1 && w != -1 && h != -1)
-                    {
-                        try
-                        {
-                            if (image_dds.Source == null)
-                                return;
-                            System.Drawing.Bitmap icon = StalkerClass.DDSImage.GetIcon(dds.BitmapImage, x, y, w, h);
-                            if (icon == null)
-                                return;
-                            image_dds.Width = icon.Width;
-                            image_dds.Height = icon.Height;
+        //                    image_dds.Source = BitmapToImageSource(icon);
+        //                }
+        //                catch
+        //                {
 
-                            image_dds.Source = BitmapToImageSource(icon);
-                        }
-                        catch
-                        {
-
-                        }
-                    }
-                    else
-                    {
-                        OpenFile(OpenFileInputNow);
-                        Initialize_CutDDS();
-                    }
-                }
-                catch (Exception g)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(g.Message + " | " + g);
-                    Console.ForegroundColor = ConsoleColor.White;
-                }
-            }
-        }
+        //                }
+        //            }
+        //            else
+        //            {
+        //                OpenFile(OpenFileInputNow);
+        //                Initialize_CutDDS();
+        //            }
+        //        }
+        //        catch (Exception g)
+        //        {
+        //            Console.ForegroundColor = ConsoleColor.Red;
+        //            Console.WriteLine(g.Message + " | " + g);
+        //            Console.ForegroundColor = ConsoleColor.White;
+        //        }
+        //    }
+        //}
 
         private void byFileOp_Click(object sender, RoutedEventArgs e)
         {
@@ -2307,108 +1464,9 @@ namespace Stalker_Studio
 
         }
 
-        private void image_dds_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            //here start
-            pStart = e.GetPosition(image_dds);
-        }
-
-        private Point pStart;
         private Point _pEnd;
 
         private int[] inv_grid_int = null;
-
-        private void image_dds_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            //here end
-
-            
-
-            Point pEnd = e.GetPosition(image_dds);
-            _pEnd = pEnd;
-            int _x = (int)pStart.X;
-            int _y = (int)pStart.Y;
-
-            int w = (int)pEnd.X;
-            int h = (int)pEnd.Y;
-
-            if(_x > w)
-            {
-                int tmp = _x;
-                _x = w;
-                w = tmp;
-            }
-            if(_y > h)
-            {
-                int tmp = _y;
-                _y = h;
-                h = tmp;
-            }
-
-
-            System.Drawing.Bitmap bts = FromSourceImage((BitmapImage)(image_dds.Source));
-            int count_x = -2;
-            int count_y = -2;
-            for(int x = 0; x < bts.Width; x++)
-            {
-                if (x % StalkerClass.DDSImage.S_X == 0)
-                {
-                    count_x++;
-                    if (x >= _x && x <= _x + StalkerClass.DDSImage.S_X)
-                        break;
-                }
-                
-            }
-            if (count_x == -1)
-                count_x = 0;
-
-            for(int y = 0; y < bts.Height; y++)
-            {
-                if (y % StalkerClass.DDSImage.S_X == 0)
-                {
-                    count_y++;
-                    if (y >= _y &&y <= _y + StalkerClass.DDSImage.S_X)
-                        break;
-                }
-            }
-            if (count_y == -1)
-                count_y = 0;
-            //  dds_selected_in = new Point(dds_selected_in.x)
-
-
-            int max_x = -1;
-            int max_y = -1;
-            if (w > _x)
-                max_x = w;
-            else
-                max_x = _x;
-            if (h > _y)
-                max_y = h;
-            else
-                max_y = _y;
-            int count_w = 1;
-            int count_h = 1;
-            for (int x = _x; x <= max_x; x++)
-                if (x % StalkerClass.DDSImage.S_X == 0)
-                    count_w++;
-            for (int y = _y; y <= max_y; y++)
-                if (y % StalkerClass.DDSImage.S_Y == 0)
-                    count_h++;
-          //  if (count_x < count_w && count_y < count_h)
-            {
-                inv_grid_int = new int[4];
-                inv_grid_int[0] = count_x;
-                inv_grid_int[1] = count_y;
-                inv_grid_int[2] = count_w;
-                inv_grid_int[3] = count_h;
-
-                image_dds.Source = BitmapToImageSource(bts);
-
-                Initialize_CutDDS(count_x, count_y, count_w, count_h);
-                CutDDS();
-            }
-        }
-
 
         private void DeleteElementTreeView(string tagElement,TreeViewItem items)
         {
@@ -2439,14 +1497,6 @@ namespace Stalker_Studio
 
                         string name = ProgramData.GetLastSplash(((TreeViewItem)(treeBrowser.SelectedItem)).Tag.ToString().Trim('\\'));
 
-                        for(int i = 0; i < toolTipHeaderFiles.Items.Count; i++)
-                        {
-                            if (((ListBoxItem)(toolTipHeaderFiles.Items[i])).Content.ToString() == name)
-                            {
-                                toolTipHeaderFiles.Items.RemoveAt(i);
-                                break;
-                            }
-                        }
                         if ((TreeViewItem)((TreeViewItem)(treeBrowser.SelectedItem)).Parent != null)
                         {
                             DeleteElementTreeView(((TreeViewItem)(treeBrowser.SelectedItem)).Tag.ToString(), (TreeViewItem)((TreeViewItem)(treeBrowser.SelectedItem)).Parent);
@@ -2466,77 +1516,17 @@ namespace Stalker_Studio
             }
         }
 
-        private void dds_clr_selected_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
-        private void dds_invoke_selected_Click(object sender, RoutedEventArgs e)
-        {
-
-
-
-        }
-
-        private void toolTipHeaderFiles_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void cls_inp_file_Click(object sender, RoutedEventArgs e)
-        {
-            if (toolTipHeaderFiles.SelectedIndex != -1)
-            {
-                this.Title = "Stalker Studio";
-                int leftIndex = toolTipHeaderFiles.SelectedIndex - 1;
-                toolTipHeaderFiles.Items.Remove(toolTipHeaderFiles.SelectedItem);
-                if (toolTipHeaderFiles.Items.Count <= 0)
-                {
-
-                    foreach (UIElement v in MenuCenter.Children)
-                    {
-                        v.Visibility = Visibility.Hidden;
-                    }
-
-                }
-                else
-                {
-                    if (leftIndex > toolTipHeaderFiles.Items.Count - 1)
-                    {
-                        OpenFile(((ListBoxItem)(toolTipHeaderFiles.Items[leftIndex])).Tag.ToString());
-
-                    }
-
-                }
-            }
-        }
-
         private void open_inp_browser_Click(object sender, RoutedEventArgs e)
         {
-            if(toolTipHeaderFiles.SelectedIndex != -1)
-            {
-                string fullPath = ((FileInfo)(((ListBoxItem)(toolTipHeaderFiles.SelectedItem)).Tag)).FullName;
-                string dir = $"{fullPath.Replace(ProgramData.GetLastSplash(fullPath), "")}";
+            //if(toolTipHeaderFiles.SelectedIndex != -1)
+            //{
+            //    string fullPath = ((FileInfo)(((ListBoxItem)(toolTipHeaderFiles.SelectedItem)).Tag)).FullName;
+            //    string dir = $"{fullPath.Replace(ProgramData.GetLastSplash(fullPath), "")}";
 
-                ProgramData.LoadDataBrowser(dir,treeBrowser);
+            //    ProgramData.LoadDataBrowser(dir,treeBrowser);
 
-                setCurrentElementBrowser((TreeViewItem)treeBrowser.Items[0], fullPath);
-            }
-        }
-
-        private void toolTipHeaderFiles_Selected(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
-        private void toolTipHeaderFiles_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (toolTipHeaderFiles.SelectedIndex != -1)
-            {
-                string fullPath = ((FileInfo)(((ListBoxItem)(toolTipHeaderFiles.SelectedItem)).Tag)).FullName;
-                Console.WriteLine(fullPath);
-                OpenFile(fullPath, true);
-            }
+            //    setCurrentElementBrowser((TreeViewItem)treeBrowser.Items[0], fullPath);
+            //}
         }
 
         private void btn_set_inv_for_Click(object sender, RoutedEventArgs e)
@@ -2544,8 +1534,8 @@ namespace Stalker_Studio
             if(inv_grid_int.Length >= 4 && inv_grid_int[0] != -1 && inv_grid_int[1] != -1 && inv_grid_int[2] != -1 && inv_grid_int[3] != -1)
             {
                 //need win for selected item
-                StalkerWin.SelectLtxForIconWin selct = new StalkerWin.SelectLtxForIconWin(inv_grid_int, (BitmapImage)image_dds.Source, ProgramData.Gamedata);
-                selct.ShowDialog();
+                //StalkerWin.SelectLtxForIconWin selct = new StalkerWin.SelectLtxForIconWin(inv_grid_int, (BitmapImage)image_dds.Source, ProgramData.Gamedata);
+                //selct.ShowDialog();
             }
         }
 
@@ -2559,7 +1549,7 @@ namespace Stalker_Studio
 
 
                     StalkerClass.HierarchyLtx.LtxFile data = new StalkerClass.HierarchyLtx.LtxFile(txt_ltx_file.Text);
-                    int indexCursor = txt_ltx_file.CaretIndex;
+                    int indexCursor = txt_ltx_file.CaretOffset;
                     string section = NowSection;
                     if (indexCursor >= 0)
                     {
@@ -2583,14 +1573,7 @@ namespace Stalker_Studio
                     MessageBox.Show("Иконка изменена!", "Изменение иконки", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     btn_set_on_last.Visibility = Visibility.Hidden;
-                    foreach (var vI in toolTipHeaderFiles.Items)
-                    {
-                        if (vI is ListBoxItem && ((vI as ListBoxItem).Tag != null && (vI as ListBoxItem).Tag.ToString() == OpenFileInputNow))
-                        {
-                            toolTipHeaderFiles.Items.Remove(vI as ListBoxItem);
-                            break;
-                        }
-                    }
+
                     OpenFile(LastOpenFileInput);
 
                 }
@@ -2609,16 +1592,6 @@ namespace Stalker_Studio
                         fls.Sections[combo_section.SelectedIndex].Parametrs.Where(x => x.Name_Parametr == "inv_grid_width").First().Value_Parametr = inv_grid_int[2].ToString();
                         fls.Sections[combo_section.SelectedIndex].Parametrs.Where(x => x.Name_Parametr == "inv_grid_height").First().Value_Parametr = inv_grid_int[3].ToString();
                         File.WriteAllText(file, fls.ToString(), ProgramData.Encoding_LTX);
-
-                        foreach(var vI in toolTipHeaderFiles.Items)
-                        {
-                            if(vI is ListBoxItem && ((vI as ListBoxItem).Tag != null && (vI as ListBoxItem).Tag.ToString() == OpenFileInputNow))
-                            {
-                                toolTipHeaderFiles.Items.Remove(vI as ListBoxItem);
-                                break;
-                            }
-                        }
-                       // toolTipHeaderFiles.Items.Remove(new FileInfo(OpenFileInputNow).Name);
 
                         OpenFile(LastOpenFileInput);
                         btn_set_on_last.Visibility = Visibility.Hidden;
@@ -2749,14 +1722,6 @@ namespace Stalker_Studio
             }
         }
 
-        private void cls_inp_all_file_Click(object sender, RoutedEventArgs e)
-        {
-            grid_ltx_file.Visibility = Visibility.Hidden;
-            parametr_ltx.Visibility = Visibility.Hidden;
-            toolTipHeaderFiles.Items.Clear();
-            this.Title = "Stalker Studio";
-        }
-
         private void comboEncoding_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if(comboEncoding.SelectedIndex != -1)
@@ -2830,7 +1795,7 @@ namespace Stalker_Studio
                         }
                         else
                         {
-                            img_pre_icon.Visibility = Visibility.Hidden;
+                            //img_pre_icon.Visibility = Visibility.Hidden;
                         }
                     }
                     catch(IndexOutOfRangeException)
@@ -2842,24 +1807,10 @@ namespace Stalker_Studio
                         }
                         else
                         {
-                            img_pre_icon.Visibility = Visibility.Hidden;
+                            //img_pre_icon.Visibility = Visibility.Hidden;
                         }
                     }
                 }
-            }
-        }
-
-        private void ltx_section_list_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (ltx_section_list.SelectedIndex != -1)
-            {
-                Initialize_Pre_Icon();
-                //txt_ltx_file.Select()
-                string sect = "[" + ((ListBoxItem)(ltx_section_list.SelectedItem)).Tag.ToString().Split(':')[0] + "]";
-                if (((ListBoxItem)(ltx_section_list.SelectedItem)).Tag.ToString().Split(':').Length > 1)
-                    sect += ":" + ((ListBoxItem)(ltx_section_list.SelectedItem)).Tag.ToString().Split(':')[1];
-                NowSection = sect.Replace("[", "").Replace("]", "");
-                Load_Data_Change_Section(sect.Split(':')[0]);
             }
         }
 
@@ -2905,20 +1856,20 @@ namespace Stalker_Studio
                 }
             }
 
-            TextBox txt = null;
+            ICSharpCode.AvalonEdit.TextEditor txt = null;
             foreach(FrameworkElement v in ltx_mode_elemetns.Children)
             {
-                if (v is TextBox  && v.Tag.ToString() == pole)
-                    txt = (TextBox)v;
+                if (v is ICSharpCode.AvalonEdit.TextEditor && v.Tag.ToString() == pole)
+                    txt = (ICSharpCode.AvalonEdit.TextEditor)v;
                 if(v is TextBox && v.Tag != null && v.Tag.ToString().Split('/').Length >= 2 && v.Tag.ToString().Split('/')[2] == pole)
                 {
-                    txt = (TextBox)v;
+                    txt = (ICSharpCode.AvalonEdit.TextEditor)v;
                 }
             }
 
             if (a && txt == null)
                 txt = txt_ltx_file;
-
+            
             if (txt == null)
                 return;
 
@@ -2940,7 +1891,7 @@ namespace Stalker_Studio
                     //set
                     txt.Text = ProgramData.PaternWinThread.TextBody;
                 }
-                SaveModeparametrNoEvent(txt);
+                //SaveModeparametrNoEvent(txt);
             }
             else if(ProgramData.PaternWinThread.IsOk && a)
             {
@@ -3051,70 +2002,6 @@ namespace Stalker_Studio
             }
         }
 
-
-
-
-        private void list_lastOpen_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if(list_lastOpen.SelectedIndex != -1)
-            {
-                txtSelectGamedata.Text = list_lastOpen.SelectedItem.ToString();
-            }
-
-        }
-
-        private void list_lastOpen_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if(list_lastOpen.SelectedIndex != -1)
-            {
-                //
-                if (Directory.Exists(txtSelectGamedata.Text))
-                {
-                    txtSelectGamedata.Text = list_lastOpen.SelectedItem.ToString();
-                    ProgramData.Gamedata = txtSelectGamedata.Text;
-                    SelectGamedata.Visibility = Visibility.Hidden;
-                    browser.Visibility = Visibility.Visible;
-                    ProgramData.LoadDataBrowser(ProgramData.Gamedata, treeBrowser);
-                    if (ProgramData.xmlStrings.Count <= 0 && Properties.Settings.Default.InitXmlStat)
-                    {
-                        ProgramData.GetValueByLinkText("ammo",true);
-                    }
-                }
-                else if (File.Exists(txtSelectGamedata.Text))
-                {
-                    txtSelectGamedata.Text = list_lastOpen.SelectedItem.ToString();
-                    SelectGamedata.Visibility = Visibility.Hidden;
-                    browser.Visibility = Visibility.Visible;
-                    OpenFile(txtSelectGamedata.Text);
-                    if (ProgramData.xmlStrings.Count <= 0 && Properties.Settings.Default.InitXmlStat)
-                    {
-                        ProgramData.GetValueByLinkText("ammo",true);
-                    }
-                }
-            }
-        }
-
-        private void list_last_del_Click(object sender, RoutedEventArgs e)
-        {
-            if(list_lastOpen.SelectedIndex != -1)
-            {
-                string resource = Properties.Settings.Default.LastOpenIndex;
-                resource = resource.Replace(list_lastOpen.SelectedItem.ToString(), "");
-                Properties.Settings.Default.LastOpenIndex = resource;
-                Properties.Settings.Default.Save();
-                Init_LastOpen();
-            }
-        }
-
-        private void list_last_clr_Click(object sender, RoutedEventArgs e)
-        {
-            string resource = "";
-            Properties.Settings.Default.LastOpenIndex = resource;
-            Properties.Settings.Default.Save();
-            Init_LastOpen();
-
-        }
-
         private void toolTip_act_xml_string_Click(object sender, RoutedEventArgs e)
         {
             StalkerWin.xmlstring.XmlStringWin win = new StalkerWin.xmlstring.XmlStringWin();
@@ -3134,7 +2021,8 @@ namespace Stalker_Studio
          
         private void ltx_pack_paste_Click(object sender, RoutedEventArgs e)
         {
-            int input_line = txt_ltx_file.GetLineIndexFromCharacterIndex(txt_ltx_file.CaretIndex);
+            //int input_line = txt_ltx_file.GetLineIndexFromCharacterIndex(txt_ltx_file.CaretOffset);
+            int input_line = 0;
             List<FileInfo> vs = new List<FileInfo>();
             vs.Add(new FileInfo($"{System.Windows.Forms.Application.StartupPath}\\Pack_parametr\\OriginalPacks.ltx"));
             StalkerWin.StaticSelectPrm_Win win = new StalkerWin.StaticSelectPrm_Win(vs);
@@ -3154,16 +2042,6 @@ namespace Stalker_Studio
                 txt_ltx_file.Text = String.Join("\n", allText);
             }
 
-        }
-
-        private void toolTipHeaderFiles_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
-        {
-            if (toolTipHeaderFiles.SelectedIndex != -1)
-            {
-                string fullPath = ((FileInfo)(((ListBoxItem)(toolTipHeaderFiles.SelectedItem)).Tag)).FullName;
-               // Console.WriteLine(fullPath);
-                OpenFile(fullPath, true);
-            }
         }
 
         private void brow_menu_add_marker_Click(object sender, RoutedEventArgs e)
@@ -3268,6 +2146,9 @@ namespace Stalker_Studio
                         AddLtxModeElement(ltx_parametr, fLtx, combo_section.SelectedIndex);
                         File.WriteAllText(OpenFileInputNow, fLtx.ToString(), ProgramData.Encoding_LTX);
                     }
+                      
+
+
                 }
             }
         }
@@ -3285,7 +2166,7 @@ namespace Stalker_Studio
                 }
                 catch
                 {
-                    return false;
+                    
                 }
 
             }
@@ -3620,8 +2501,6 @@ namespace Stalker_Studio
 
             public static string GetGamedataFromInCatalogs(string path)
             {
-                if (path == null)
-                    return null;
                 string vs = null;
                 if (path.ToUpper().Contains("gamedata".ToUpper()))
                 {
@@ -4087,15 +2966,6 @@ namespace Stalker_Studio
             StalkerWin.Import.ImportFile_Win impW = new StalkerWin.Import.ImportFile_Win(ProgramData.Gamedata);
             impW.Owner = this;
             impW.ShowDialog();
-        }
-
-        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            if(WinOGFE != IntPtr.Zero && grid_ogf_editor.Visibility == Visibility.Visible)
-            {
-                ISP_Editor();
-                SetSizeNoBorder();
-            }
         }
 
         private void Label_Click(object sender, RoutedEventArgs e)

@@ -22,10 +22,11 @@ namespace Stalker_Studio
         public ByWin()
         {
             InitializeComponent();
+            InterfaceHelper.InitializeWindow(this);
+
             ap_pro.Source = MainWindow.BitmapToImageSource(new System.Drawing.Bitmap($"{System.Windows.Forms.Application.StartupPath}\\Data\\Image\\ap-pro.jpg"));
             VK2.Source = MainWindow.BitmapToImageSource(new System.Drawing.Bitmap($"{System.Windows.Forms.Application.StartupPath}\\Data\\Image\\vk.png"));
             //VK.Source = MainWindow.BitmapToImageSource(new System.Drawing.Bitmap($"{System.Windows.Forms.Application.StartupPath}\\Data\\Image\\vk.png"));
-            img.Source = MainWindow.BitmapToImageSource(new System.Drawing.Bitmap($"{System.Windows.Forms.Application.StartupPath}\\Data\\Image\\None Icon White.png"));
         }
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)

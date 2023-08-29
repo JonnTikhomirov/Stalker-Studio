@@ -23,7 +23,7 @@ namespace Stalker_Studio
         public SettingWin()
         {
             InitializeComponent();
-            lst_setting.SelectedIndex = 0;
+            InterfaceHelper.InitializeWindow(this);
 
             Init_Def();
             Init_VID();
@@ -77,43 +77,43 @@ namespace Stalker_Studio
 
 
 
-        private void HideAll()
-        {
-            grid_default_setting.Visibility = Visibility.Hidden;
-            grid_vid_setting.Visibility = Visibility.Hidden;
-            grid_import_setting.Visibility = Visibility.Hidden;
-            grid_ignore_setting.Visibility = Visibility.Hidden;
-            grid_hints_setting.Visibility = Visibility.Hidden;
-        }
+        //private void HideAll()
+        //{
+        //    grid_default_setting.Visibility = Visibility.Hidden;
+        //    grid_vid_setting.Visibility = Visibility.Hidden;
+        //    grid_import_setting.Visibility = Visibility.Hidden;
+        //    grid_ignore_setting.Visibility = Visibility.Hidden;
+        //    grid_hints_setting.Visibility = Visibility.Hidden;
+        //}
 
 
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if(lst_setting.SelectedIndex != -1)
-            {
-                HideAll();
-                if(lst_setting.SelectedIndex == 0)
-                {
-                    grid_default_setting.Visibility = Visibility.Visible;
-                }
-                else if(lst_setting.SelectedIndex == 1)
-                {
-                    grid_vid_setting.Visibility = Visibility.Visible;
-                }
-                else if(lst_setting.SelectedIndex == 2)
-                {
-                    grid_import_setting.Visibility = Visibility.Visible;
-                }
-                else if (lst_setting.SelectedIndex == 3)
-                {
-                    grid_ignore_setting.Visibility = Visibility.Visible;
-                }
-                else if (lst_setting.SelectedIndex == 4)
-                {
-                    grid_hints_setting.Visibility = Visibility.Visible;
-                }
-            }
-        }
+        //private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    if(lst_setting.SelectedIndex != -1)
+        //    {
+        //        HideAll();
+        //        if(lst_setting.SelectedIndex == 0)
+        //        {
+        //            grid_default_setting.Visibility = Visibility.Visible;
+        //        }
+        //        else if(lst_setting.SelectedIndex == 1)
+        //        {
+        //            grid_vid_setting.Visibility = Visibility.Visible;
+        //        }
+        //        else if(lst_setting.SelectedIndex == 2)
+        //        {
+        //            grid_import_setting.Visibility = Visibility.Visible;
+        //        }
+        //        else if (lst_setting.SelectedIndex == 3)
+        //        {
+        //            grid_ignore_setting.Visibility = Visibility.Visible;
+        //        }
+        //        else if (lst_setting.SelectedIndex == 4)
+        //        {
+        //            grid_hints_setting.Visibility = Visibility.Visible;
+        //        }
+        //    }
+        //}
 
         private void btn_save_Click(object sender, RoutedEventArgs e)
         {

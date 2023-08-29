@@ -5,45 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stalker_Studio"
         mc:Ignorable="d"
-        Title="О программе" Height="363" Width="617" Background="#494949" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+        Style="{StaticResource style_Window}"
+        Title="О программе" Background="{DynamicResource brush_BackgroundContent}" ResizeMode="NoResize"  WindowStartupLocation="CenterOwner" SizeToContent="WidthAndHeight">
 
-    <Window.Resources>
-        <Style TargetType="Label">
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-    </Window.Resources>
-
-    <Grid>
-        <Image Stretch="Fill" Name="VK2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="30" Height="31" Margin="91,0,0,71"/>
-        <Image Stretch="Fill" Name="ap_pro" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="59" Height="31" Margin="76,0,0,27"/>
-        <Label Content="Разработчик: Кирилл Сухинин" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <Label Content="Версия: 0.5 Beta" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
-        <Label Content="Версия Интерфейса: 1.1" HorizontalAlignment="Left" Margin="10,65,0,0" VerticalAlignment="Top"/>
-        <Image Name="img" Stretch="Fill" HorizontalAlignment="Left" Height="345" Margin="191,0,0,0" VerticalAlignment="Top" Width="423"/>
-
-        <TextBox HorizontalAlignment="Left" Margin="30,200,0,0" VerticalAlignment="Top" Width="121" Background="#464646" Foreground="White" IsReadOnly="True" Text="4276 6300 2480 2616"/>
-
-
-        <Label HorizontalAlignment="Left" Margin="10,226,0,0" VerticalAlignment="Top" >
-            <Hyperlink Click="Hyperlink_Click">
-                Группа ВК
-            </Hyperlink>
-        </Label>
-
-        <Label HorizontalAlignment="Left" Margin="81,299,0,0" VerticalAlignment="Top" >
-            <Hyperlink Click="Hyperlink_Click_1">
-                Ap-Pro
-            </Hyperlink>
-        </Label>
-
-        <Label HorizontalAlignment="Left" Margin="134,226,0,0" VerticalAlignment="Top">
-            <Hyperlink Click="Hyperlink_Click_2">
-                ВК
-            </Hyperlink>
-        </Label>
-        <Label Content="Поддержка проекта" HorizontalAlignment="Left" Margin="30,174,0,0" VerticalAlignment="Top"/>
-
-
-
-    </Grid>
+    <StackPanel Margin="8,8,8,0">
+        <Label Padding="8,4,4,4" Content="Разработчик: Кирилл Сухинин"/>
+        <Label Padding="8,4,4,4" Content="Дизайн, интерфейс: Иван Тихомиров"/>
+        <Label Padding="8,4,4,4" Content="Версия: 0.5 Beta"/>
+        <Label Padding="8,4,4,4" Content="Версия Интерфейса: 1.1"/>
+        <StackPanel Orientation="Horizontal" Background="{DynamicResource brush_Background}">
+            <Label Padding="8,4,4,4" Content="Поддержка проекта: " VerticalAlignment="Center"/>
+            <TextBox Margin="6,4,4,4" Padding="4,2,6,2"  IsReadOnly="True" Text="4276 6300 2480 2616" VerticalAlignment="Center"/>
+            <Image Margin="8,8,4,8" Stretch="Fill" Name="ap_pro" Width="59" Height="31" MouseUp="Hyperlink_Click_1" Cursor="Hand" SnapsToDevicePixels="True"/>
+            <!--<Image Stretch="Fill" Name="VK" Margin="4"  Width="30" Height="31" MouseUp="Hyperlink_Click_2" Cursor="Hand"/>-->
+            <Image Margin="4,8" Stretch="Fill" Name="VK2" Width="30" Height="31" MouseUp="Hyperlink_Click" Cursor="Hand" SnapsToDevicePixels="True"/>
+        </StackPanel>
+        <StackPanel Margin="16" Orientation="Horizontal">
+            <Image Margin="0,0,16,0" Width="128" Source="{StaticResource icon_Radiation}"/>
+            <TextBlock Text="Stalker Studio" FontSize="42" VerticalAlignment="Center"/>
+        </StackPanel>
+    </StackPanel>
 </Window>

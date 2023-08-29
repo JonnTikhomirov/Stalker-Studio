@@ -4,6 +4,21 @@
              xmlns:local="clr-namespace:Stalker_Studio"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary x:Name="AppResources">
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Interface\DictionaryTabControlStyles.xaml"/>
+                <ResourceDictionary Source="Interface\DictionaryListBoxStyles.xaml"/>
+                <ResourceDictionary Source="Interface\DictionaryMenuStyles.xaml"/>
+                <ResourceDictionary Source="Interface\DictionaryComboBoxStyles.xaml"/>
+                <ResourceDictionary Source="Interface\DictionaryScrollBarStyles.xaml"/>
+                <ResourceDictionary Source="Interface\DictionaryExpanderStyles.xaml"/>
+                <ResourceDictionary Source="Interface\DictionaryToolBarStyles.xaml"/>
+                <ResourceDictionary Source="Interface\DictionaryTreeStyles.xaml"/>
+                <ResourceDictionary Source="Interface\DictionaryIcons.xaml"/>
+                <ResourceDictionary Source="Interface\DictionaryViewModel.xaml"/>
+                <ResourceDictionary Source="Interface\DictionaryPropertyGrid.xaml"/>
+                <ResourceDictionary Source="Interface\DictionaryDataGrid.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

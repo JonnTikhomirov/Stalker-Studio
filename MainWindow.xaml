@@ -4,130 +4,57 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:syntax="clr-namespace:UI.SyntaxBox;assembly=UI.SyntaxBox"
+        xmlns:sys="clr-namespace:System;assembly=System"
         xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"  
         xmlns:local="clr-namespace:Stalker_Studio"
+        xmlns:av="http://icsharpcode.net/sharpdevelop/avalonedit"
+        xmlns:vm="clr-namespace:Stalker_Studio.ViewModel"
+        xmlns:pt="http://propertytools.org/wpf"
         mc:Ignorable="d"
-        Title="Stalker Studio" Height="500" Width="900" MinWidth="800" MinHeight="400" Foreground="#262626" Background="#464646" WindowStartupLocation="CenterScreen" SizeChanged="Window_SizeChanged">
+        Style="{DynamicResource style_Window}"
+        Title="Stalker studio" 
+        ToolTip="{Binding Gamedata.Root.FullName}"
+        DataContext="{x:Static vm:Workspace.This}"
+        MinWidth="800" MinHeight="400" WindowStartupLocation="CenterScreen"
+        Icon="{StaticResource icon_Radiation}">
 
-
-    <Window.Resources>
-
-
-        <Style TargetType="ListBox" x:Key="nonScrollHor">
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"/>
-        </Style>
-
-        <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-
-
-            <Setter Property="BorderBrush" Value="#464646"></Setter>
-            <Setter Property="Background" Value="#464646"/>
-            <Setter Property="Foreground" Value="white"/>
-
-
-            <Setter Property="Template">
-
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type MenuItem}">
-
-                        <Border x:Name="Bd" Padding="17,0,17,0" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0 0 0 0" Background="{TemplateBinding Background}" SnapsToDevicePixels="True" Uid="Border_38">
-                            <ContentPresenter x:Name="ContentPresenter"  Content="{TemplateBinding Header}" ContentSource="Header" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Uid="ContentPresenter_33"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsHighlighted" Value="True">
-                                <Setter Property="Background" TargetName="Bd" Value="#262626"/>
-                                <Setter Property="BorderBrush" TargetName="Bd" Value="White"/>
-
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="BorderBrush" Value="Red"/>
-            <Setter Property="BorderThickness" Value="0 0 0 0"/>
-        </Style>
-
-
-        <Style TargetType="TreeView">
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Visible"></Setter>
-            <Setter Property="ScrollViewer.Background" Value="#262626"/>
-            <Setter Property="Background" Value="#262626"/>
-        </Style>
-
-        <Style TargetType="TreeViewItem">
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-
-        <Style TargetType="Label">
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-        <Style TargetType="TextBox">
-            <Setter Property="Background" Value="#262626"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-        <Style TargetType="Button">
-            <Setter Property="Background" Value="#303030"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-        <Style TargetType="ListBox">
-            <Setter Property="Background" Value="#303030"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-
-
-
-
-
-
-    </Window.Resources>
-
-
-    <Grid x:Name="MenuMain">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="51"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="70*"/>
-            <ColumnDefinition Width="231*"/>
-            <ColumnDefinition Width="85*"/>
-        </Grid.ColumnDefinitions>
-
-        <Grid x:Name="MenuToolTip" Grid.Column="0" Grid.ColumnSpan="3">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="111*"/>
-                <ColumnDefinition Width="65"/>
-            </Grid.ColumnDefinitions>
-
-
-
-
-            <Menu Background="#464646" HorizontalContentAlignment="Right" Grid.ColumnSpan="1" BorderThickness="0" Grid.RowSpan="2">
-                <MenuItem Header="Файлы" Background="#464646" Foreground="White">
-                    <MenuItem Header="Открыть файл" Click="MenuItem_Click"/>
-                    <MenuItem Header="Создать файл" Click="MenuItem_Click_1"/>
+<DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Menu Padding="2,0">
+                <MenuItem Header="Файлы">
+                    <MenuItem Header="Создать">
+                        <MenuItem Header="Текстовый файл..." Command="{Binding NewCommand}" Style="{StaticResource style_MenuItemExtendedCommand}" 
+                                  CommandParameter="TXT"/>
+                        <MenuItem Header="LTX файл..." Command="{Binding NewCommand}" Style="{StaticResource style_MenuItemExtendedCommand}" 
+                                  CommandParameter="LTX"
+                                  Icon="{StaticResource icon_NewLTXFile}"/>
+                        <MenuItem Header="XML файл..." Command="{Binding NewCommand}" Style="{StaticResource style_MenuItemExtendedCommand}" 
+                                  CommandParameter="XML"/>
+                        <MenuItem Header="Script файл..." Command="{Binding NewCommand}" Style="{StaticResource style_MenuItemExtendedCommand}" 
+                                  CommandParameter="SCRIPT"/>
+                    </MenuItem>
+                    <!--<MenuItem Header="Открыть файл" Click="MenuItem_Click"/>-->
+                    <MenuItem Command="{Binding OpenFileCommand}" Style="{StaticResource style_MenuItemExtendedCommand}"/>
+                    <!--<MenuItem Header="Создать файл" Click="MenuItem_Click_1"/>-->
+                    <MenuItem Command="{Binding OpenGamedataCommand}" Style="{StaticResource style_MenuItemExtendedCommand}"/>
+                    <MenuItem Header="Последние" ItemsSource="{Binding LastFiles}">
+                        <MenuItem.ItemContainerStyle>
+                            <Style TargetType="MenuItem" BasedOn="{StaticResource style_MenuItem}">
+                                <Setter Property="Command" Value="{Binding DataContext.OpenFileCommand, RelativeSource={RelativeSource AncestorType=Menu}}"/>
+                                <Setter Property="CommandParameter" Value="{Binding}"/>
+                            </Style>
+                        </MenuItem.ItemContainerStyle>
+                    </MenuItem>
                 </MenuItem>
-                <MenuItem Header="Правка"  Background="#464646" Foreground="White">
-                    <MenuItem Header="Изменить путь к gamedata" Name="tooltip_changeGamedata" Click="tooltip_changeGamedata_Click"/>
+                <MenuItem Header="Правка">
                     <MenuItem Header="Замена старых ссылок (global)" Name="repOldLink" Click="repOldLink_Click"/>
-                    <MenuItem Header="Прыд. файл" Name="byFileOp" Click="byFileOp_Click"/>
                     <MenuItem Header="Изменить иконку (items ltx)" Name="toolTip_change_icon" Click="toolTip_change_icon_Click"/>
                     <MenuItem Header="Замена стат. параметров" Name="toolTip_act_static_prm" Click="toolTip_act_static_prm_Click"/>
                     <MenuItem Header="Работа с xml строками" Name="toolTip_act_xml_string" Click="toolTip_act_xml_string_Click"/>
                     <MenuItem Header="Добавить новую иконку (.dds)" Name="toolTip_addWpnIcon" Click="toolTip_addWpnIcon_Click"/>
                     <MenuItem Header="Импорт файлов" Name="toolTip_import_files" Click="toolTip_import_files_Click"/>
                 </MenuItem>
-                <MenuItem Header="Диалоги" Foreground="White">
+                <MenuItem Header="Диалоги">
                     <MenuItem Header="Работа с диалогами (Ray of Hope Team)" Name="toolTip_aworkDialogs" Click="toolTip_aworkDialogs_Click"/>
                     <MenuItem Header="Работа с диалогами (GSC Game World)" Name="toolTip_DialogGSC" Click="toolTip_DialogGSC_Click"/>
                 </MenuItem>
@@ -136,398 +63,249 @@
                     <MenuItem Header="DDS Текстуры" Name="toolTip_Convert_DDS" Click="toolTip_Convert_DDS_Click"/>
                     <MenuItem Header="OGG - WAV" Name="toolTip_Convert_DDSTGA" Click="toolTip_Convert_DDSTGA_Click"/>
                 </MenuItem>
-                <MenuItem Header="Анализ" Background="#464646" Foreground="White">
+                <MenuItem Header="Анализ">
                     <MenuItem Header="Построение ссылок (NON USE)" Name="setLinked" Click="setLinked_Click" IsEnabled="True"/>
                     <MenuItem Header="Проверка текстур" Name="checkTextures" Click="checkTextures_Click"/>
                     <MenuItem Header="Отладка вылетов (Beta)" Name="check_error" Click="check_error_Click"/>
                     <MenuItem Header="Отладка конфигов (NON USE)" Name="otladka_configs" Click="otladka_configs_Click_2"/>
                 </MenuItem>
-                <MenuItem Header="Вид" Background="#464646" Foreground="White" Visibility="Visible">
+                <MenuItem Header="Вид" Visibility="Visible">
                     <MenuItem Header="Показывать/скрыть сетку .dds" Name="tp_see_setka_dds" Click="tp_see_setka_dds_Click"/>
+                    <MenuItem Header="{Binding Browser.Title}" Command="{Binding OpenToolCommand}" CommandParameter="{Binding Browser}" Icon="{Binding Browser.IconSource}"/>
+                    <MenuItem Header="{Binding PropertiesTool.Title}" Command="{Binding OpenToolCommand}" CommandParameter="{Binding PropertiesTool}" Icon="{Binding PropertiesTool.IconSource}"/>
+                    <MenuItem Header="{Binding MessageList.Title}" Command="{Binding OpenToolCommand}" CommandParameter="{Binding MessageList}" Icon="{Binding MessageList.IconSource}"/>
                 </MenuItem>
 
                 <MenuItem Header="Команды" Visibility="Visible">
                     <MenuItem Header="Конструктор команд (NON USE)"/>
                 </MenuItem>
-                
-                <MenuItem Header="Настройки" Background="#464646" Foreground="White" Visibility="Visible" Name="tp_setting_win">
+
+                <MenuItem Header="Настройки" Visibility="Visible" Name="tp_setting_win">
                     <MenuItem Header="Основные" Click="tp_setting_win_Click"/>
                     <MenuItem Header="Параметры" Name="tp_setting_prm" Click="tp_setting_prm_Click"/>
                 </MenuItem>
-
             </Menu>
-
-            <Menu Background="#464646" HorizontalContentAlignment="Right" Grid.Column="1" BorderThickness="0" Grid.RowSpan="2">
-
-                <MenuItem Header="Справка" Background="#464646" Foreground="White">
+            <Menu HorizontalAlignment="Right" HorizontalContentAlignment="Right" Padding="2,0">
+                <MenuItem Header="Справка">
                     <MenuItem Header="О программе" Click="MenuItem_Click_2"/>
                 </MenuItem>
-
             </Menu>
-
-            <Border Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="1" BorderBrush="#404040" Grid.RowSpan="2">
-
-            </Border>
-
-            <ListBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Name="toolTipHeaderFiles" Background="#464646" BorderBrush="#424242"  Style="{DynamicResource nonScrollHor}" Foreground="White" SelectionChanged="toolTipHeaderFiles_SelectionChanged_1" MouseDoubleClick="toolTipHeaderFiles_MouseLeftButtonUp">
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="Padding" Value="5 0 5 0" />
-                    </Style>
-                </ListBox.ItemContainerStyle>
-
-                <ListBox.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Закрыть" Name="cls_inp_file" Click="cls_inp_file_Click"/>
-                        <MenuItem Header="Закрыть все файлы" Name="cls_inp_all_file" Click="cls_inp_all_file_Click"/>
-
-                    </ContextMenu>
-                </ListBox.ContextMenu>
-
-            </ListBox>
-
-
         </Grid>
+        <ToolBarTray DockPanel.Dock="Top" Margin="6,0">
+            <ToolBar ItemsSource="{Binding Commands}" ItemTemplateSelector="{StaticResource CommandDataTemplateSelector}"/>
+            <ToolBar ItemsSource="{Binding ActiveContent.Commands}" ItemTemplateSelector="{StaticResource CommandDataTemplateSelector}"/>
+        </ToolBarTray>
 
-        <Grid x:Name="MenuLeft" Grid.Row="1" Grid.Column="0">
+        <Grid Visibility="Collapsed" x:Name="MenuMain" Margin="2,0,2,2">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="70*"/>
+                <ColumnDefinition Width="4"/>
+                <ColumnDefinition Width="231*"/>
+                <ColumnDefinition Width="4"/>
+                <ColumnDefinition Width="85*"/>
+            </Grid.ColumnDefinitions>
 
-            <Border BorderThickness="1" BorderBrush="#303030"/>
-
-            <Grid x:Name="browser" Visibility="Visible">
-                <TreeView Name="treeBrowser" MouseDoubleClick="treeBrowser_MouseDoubleClick" KeyUp="treeBrowser_KeyUp" SelectedItemChanged="treeBrowser_SelectedItemChanged"  MouseLeftButtonUp="treeBrowser_MouseLeftButtonUp" MouseEnter="treeBrowser_MouseEnter" MouseLeave="treeBrowser_MouseLeave">
-                    <TreeView.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Name="brow_menu_add" Header="Добавить файл" Click="brow_menu_add_Click"/>
-                            <MenuItem Name="brow_menu_del" Header="Удалить файл" Click="brow_menu_del_Click"/>
-                            <MenuItem Name="brow_menu_add_marker" Header="Добавить маркер" Click="brow_menu_add_marker_Click"/>
-                            <MenuItem Name="brow_menu_del_marker" Header="Удалить маркер" Click="brow_menu_del_marker_Click"/>
-                            <MenuItem Name="brow_menu_import_files" Header="Импорт файлов" Click="brow_menu_import_files_Click"/>
-                        </ContextMenu>
-                    </TreeView.ContextMenu>
-                </TreeView>
-
-
-            </Grid>
-
-        </Grid>
-
-
-        <Grid x:Name="MenuCenter" Grid.Row="1" Grid.Column="1" >
-            <Grid Name="SelectGamedata" Visibility="Hidden">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="395*"/>
-                    <ColumnDefinition Width="150*"/>
-                    <ColumnDefinition Width="150*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="37*"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="45"/>
-                    <RowDefinition Height="327*"/>
-                </Grid.RowDefinitions>
-
-                <Label Content="Выберите папку gamedata для работы" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" Width="221"  Grid.RowSpan="2"/>
-                <TextBox  Grid.Row="1" Name="txtSelectGamedata" Grid.ColumnSpan="3" KeyUp="txtSelectGamedata_KeyUp" TextChanged="txtSelectGamedata_TextChanged_1" Margin="0,0,44,44" Grid.RowSpan="2"/>
-                <Button Content="..." Name="btnSelectGamedata" Grid.Row="1" Width="40" HorizontalAlignment="Right" Click="btnSelectGamedata_Click" Grid.Column="2" />
-                <Label Grid.Row="2" Content="Кодировка -" Grid.RowSpan="2"/>
-                <ComboBox Grid.Row="2" VerticalAlignment="Top" HorizontalAlignment="Left" Width="200" Margin="80,5,0,0" Name="comboEncoding" SelectionChanged="comboEncoding_SelectionChanged">
-                    <ComboBoxItem Content="UTF-8"/>
-                    <ComboBoxItem Content="Windows-1251"/>
-                </ComboBox>
-                <!--<CheckBox Name="check_useIgnore" Content="Пути для игнорирования" Foreground="White" Margin="5,0,0,0" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Top"/>-->
-                <ListBox Name="list_ignore" Grid.Row="3" Grid.Column="1" Margin="5,0,0,0" Grid.ColumnSpan="2" >
-                    <ListBox.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="Выбрать всё" Name="ignoreShellAll" Click="ignoreShellAll_Click"/>
-                            <MenuItem Header="Снять всё" Name="ignoreShellZeroAll" Click="ignoreShellZeroAll_Click"/>
-                        </ContextMenu>
-                    </ListBox.ContextMenu>
-                </ListBox>
-
-                <ListBox Name="list_lastOpen" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="1" SelectionChanged="list_lastOpen_SelectionChanged" MouseDoubleClick="list_lastOpen_MouseDoubleClick">
-                    <ListBox.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Name="list_last_del" Header="Удалить из списка" Click="list_last_del_Click"/>
-                            <MenuItem Name="list_last_clr" Header="Очистить весь список" Click="list_last_clr_Click"/>
-                        </ContextMenu>
-                    </ListBox.ContextMenu>
-                </ListBox>
-
-            </Grid>
-
-
-            <Grid x:Name="grid_open_file_dds" Visibility="Hidden">
-                <ScrollViewer Name="scrollImage" CanContentScroll="True" HorizontalScrollBarVisibility="Visible">
-                    <Image Name="image_dds" MouseLeftButtonDown="image_dds_MouseLeftButtonDown" MouseLeftButtonUp="image_dds_MouseLeftButtonUp">
-                        <Image.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Очистить выделение" Name="dds_clr_selected" Click="dds_clr_selected_Click"/>
-                                <MenuItem Header="Применить выделение" Name="dds_invoke_selected" Click="dds_invoke_selected_Click"/>
-                            </ContextMenu>
-                        </Image.ContextMenu>
-                    </Image>
-                </ScrollViewer>
-                <StackPanel Name="draw_space"/>
-            </Grid>
-            <Grid Name="grid_ltx_file" Visibility="Hidden">
-                <TextBox VerticalScrollBarVisibility="Visible" Name="txt_ltx_file" AcceptsReturn="True" TextChanged="txt_ltx_file_TextChanged" KeyUp="txt_ltx_file_KeyUp" MouseEnter="txt_ltx_file_MouseEnter" MouseMove="txt_ltx_file_MouseMove" Background="#454545"
+            <Grid x:Name="MenuCenter" Grid.Row="1" Grid.Column="2" >
+                <Grid Name="grid_ltx_file" Visibility="Hidden">
+                    <av:TextEditor Name="txt_ltx_file" SyntaxHighlighting="LTX" 
+                                   MouseEnter="txt_ltx_file_MouseEnter" 
+                                   MouseMove="txt_ltx_file_MouseMove" 
+                                   Background="{DynamicResource brush_BackgroundContent}" 
+                                   ShowLineNumbers="True"/>
+                </Grid>
+                <Grid Name="grid_ltx_mode" Visibility="Hidden">
+                    <ScrollViewer>
+                        <Grid Name="ltx_mode_elemetns">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="128*"/>
+                                <ColumnDefinition Width="321*"/>
+                                <ColumnDefinition Width="73*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="Секция" Name="lab_section" VerticalAlignment="Top" Height="26" Margin="0,0,3,0"/>
+                            <ComboBox Name="combo_section" Grid.Column="1" VerticalAlignment="Top" Width="180" HorizontalAlignment="Left" SelectionChanged="combo_section_SelectionChanged" Height="22"/>
+                            <Grid.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Добавить параметр" Name="nm_ltx_add_parametr" Click="nm_ltx_add_parametr_Click"/>
+                                </ContextMenu>
+                            </Grid.ContextMenu>
+                        </Grid>
+                    </ScrollViewer>
+                </Grid>
+                <Grid Name="grid_xml_string_text" Visibility="Hidden">
+                    <av:TextEditor Name="txt_xml_strings" SyntaxHighlighting="xml" 
+                                   KeyUp="txt_xml_strings_KeyUp" 
+                                   Background="{DynamicResource brush_BackgroundContent}" 
+                                   ShowLineNumbers="True"/>
+                </Grid>
+                <Grid Name="grid_script" Visibility="Visible">
+                    <TextBox VerticalScrollBarVisibility="Visible" FontFamily="Courier New" Name="txt_script" AcceptsReturn="True" KeyUp="txt_script_KeyUp"
                          syntax:SyntaxBox.Enable="True"
-    syntax:SyntaxBox.ExpandTabs="True"
-    syntax:SyntaxBox.AutoIndent="True"
-    syntax:SyntaxBox.ShowLineNumbers="True"
-    syntax:SyntaxBox.LineNumbersBackground="#464646"
-    syntax:SyntaxBox.LineNumbersForeground="SlateGray" >
-                    <TextBox.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Name="ltx_f_copy" Header="Копировать" Click="ltx_f_copy_Click"/>
-                            <MenuItem Name="ltx_f_next" Header="Перейти" Click="ltx_f_next_Click"/>
-                            <MenuItem Name="ltx_vstavka" Header="Вставить" Click="ltx_vstavka_Click" Tag="txt_ltx_file"/>
-                            <MenuItem Name="ltx_pack_paste" Header="Вставить +" Click="ltx_pack_paste_Click"/>
-                            <MenuItem Name="ltx_act_virovni" Header="Act.Выровнять" Click="ltx_act_virovni_Click"/>
-                            <MenuItem Name="ltx_act_del_start_des" Header="Act.Удалить комментарии" Click="ltx_act_del_start_des_Click"/>
-                            <MenuItem Name="ltx_act_del_all_des" Header="Act.Удалить все комментарии" Click="ltx_act_del_all_des_Click"/>
-                        </ContextMenu>
-                    </TextBox.ContextMenu>
-
-                    <!---Setting for Syntax-->
-                    <syntax:SyntaxBox.SyntaxDrivers>
-                        <syntax:SyntaxConfig>
-
-                            <syntax:KeywordRule Foreground="Blue"
-                Keywords="true,false,on,off"
-            />
-                            <syntax:RegexRule Op="Line" Foreground="Black" Pattern=".*=" />
-                            <syntax:RegexRule Op="Line" Foreground="OrangeRed" Pattern="\[(?&lt;val>.*?)\]" />
-                            <syntax:RegexRule Op="Line" Foreground="BlueViolet" Pattern=":.*" />
-                            <syntax:KeywordRule Foreground="Green"
-                Keywords="#include"
-            />
-                            <syntax:KeywordRule Foreground="Purple"
-                Keywords="!,+,-,/,*,%,=,&amp;,^,|,&lt;,&gt;"
-                WholeWordsOnly="False"
-            />
-                            <!-- String -->
-                            <syntax:RegexRule Op="Line" Foreground="Green" Pattern="&quot;(?:[^&quot;\\]|\\.)*&quot;" />
-
-                            <!-- Comment -->
-                            <syntax:RegexRule Op="Line" Foreground="Green" Pattern=";.*" />
-
-                        </syntax:SyntaxConfig>
-                    </syntax:SyntaxBox.SyntaxDrivers>
-
-                </TextBox>
-            </Grid>
-            <Grid Name="grid_ltx_mode" Visibility="Hidden">
-                <Grid.ColumnDefinitions>
-
-                </Grid.ColumnDefinitions>
-                <ScrollViewer>
-                    <Grid Name="ltx_mode_elemetns">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="128*"/>
-                            <ColumnDefinition Width="321*"/>
-                            <ColumnDefinition Width="73*"/>
-                        </Grid.ColumnDefinitions>
-                        <Label Content="Секция" Name="lab_section" VerticalAlignment="Top" Height="26" Margin="0,0,3,0"/>
-                        <ComboBox Name="combo_section" Grid.Column="1" VerticalAlignment="Top" Width="180" HorizontalAlignment="Left" SelectionChanged="combo_section_SelectionChanged" Height="22"/>
-                        <Grid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Добавить параметр" Name="nm_ltx_add_parametr" Click="nm_ltx_add_parametr_Click"/>
-                            </ContextMenu>
-                        </Grid.ContextMenu>
-                    </Grid>
-                </ScrollViewer>
-            </Grid>
-            <Grid Name="grid_xml_string_text" Visibility="Hidden">
-                <TextBox Name="txt_xml_strings" AcceptsReturn="True" KeyUp="txt_xml_strings_KeyUp" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible"                         syntax:SyntaxBox.Enable="True"
-    syntax:SyntaxBox.ExpandTabs="True"
-    syntax:SyntaxBox.AutoIndent="True"
-    syntax:SyntaxBox.ShowLineNumbers="True"
-    syntax:SyntaxBox.LineNumbersBackground="#464646"
-    syntax:SyntaxBox.LineNumbersForeground="SlateGray">
-
-                    <syntax:SyntaxBox.SyntaxDrivers>
-                        <syntax:SyntaxConfig>
-
-
-                        </syntax:SyntaxConfig>
-                    </syntax:SyntaxBox.SyntaxDrivers>
-
-                </TextBox>
-
-            </Grid>
-            <Grid Name="grid_script" Visibility="Hidden">
-                <TextBox VerticalScrollBarVisibility="Visible" FontFamily="Courier New" Name="txt_script" AcceptsReturn="True" KeyUp="txt_script_KeyUp" Background="#454545"
-                         syntax:SyntaxBox.Enable="True"
-    syntax:SyntaxBox.ExpandTabs="True"
-    syntax:SyntaxBox.AutoIndent="True"
-    syntax:SyntaxBox.ShowLineNumbers="True"
-    syntax:SyntaxBox.LineNumbersBackground="#464646"
-    syntax:SyntaxBox.LineNumbersForeground="SlateGray" >
-
-
-                    <!---Setting for Syntax-->
-                    <syntax:SyntaxBox.SyntaxDrivers>
-                        <syntax:SyntaxConfig>
-
-                            <syntax:KeywordRule Foreground="Blue"
-                Keywords="true,false,on,off,function,class,__init,end,if,nil,return,not,else,local,then,has_alife_info,printf,console.log"
-            />
-
-                            <syntax:RegexRule Op="Line" Foreground="Black" Pattern="\(([^\)]*)\)"/>
-
-                            <syntax:KeywordRule Foreground="DarkGoldenrod"
-                Keywords="self"
-            />
-
-                            <syntax:KeywordRule Foreground="Purple"
-                Keywords="!,+,-,/,*,%,=,&amp;,^,|,&lt;,&gt;"
-                WholeWordsOnly="False"
-            />
-                            <!-- String -->
-                            <syntax:RegexRule Op="Line" Foreground="Red" Pattern="&quot;(?:[^&quot;\\]|\\.)*&quot;" />
-
-                            <!-- Comment -->
-                            <syntax:RegexRule Op="Line" Foreground="DarkGreen" Pattern="--.*" />
-
-                        </syntax:SyntaxConfig>
-                    </syntax:SyntaxBox.SyntaxDrivers>
-
-                </TextBox>
-            </Grid>
-
-            <Grid Name="grid_ogf_editor" Visibility="Visible">
-                <WindowsFormsHost Name="panel_ogf">
-                    <wf:PictureBox x:Name="main"/>
-                </WindowsFormsHost>
-            </Grid>
-            
-        </Grid>
-
-        <Grid x:Name="MenuRight" Grid.Row="1" Grid.Column="2">
-            <Border BorderThickness="1" BorderBrush="#303030"/>
-
-            <Grid Name="parametr_dds" Visibility="Hidden">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="85*"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="150*"/>
-
-                </Grid.RowDefinitions>
-
-                <Grid.ColumnDefinitions>
-
-                </Grid.ColumnDefinitions>
-
-                <Button Content="Сохранить как .png" Grid.Row="0" Name="Btn_save_dds_png" Click="Btn_save_dds_png_Click"/>
-                <Label Grid.Row="1" Content="Разметка:"/>
-                <TextBox Grid.Row="2" Name="txt_dds_grid" KeyUp="txt_dds_grid_KeyUp" AcceptsReturn="true">
-                    <TextBox.ToolTip>
-                        <ToolTip Content="Grid позиция иконки">
-                        </ToolTip>
-                    </TextBox.ToolTip>
-                </TextBox>
-
-                <Button Content="Копировать" Name="btn_copy_grid_dds_short" Grid.Row="3" Height="25" VerticalAlignment="Center"/>
-                <Button Content="Убрать выделение" Grid.Row="4" Height="25" Name="btn_grid_clear_dds" Click="btn_grid_clear_dds_Click" />
-                <Button Content="Установить для" Grid.Row="5" Name="btn_set_inv_for" Height="25" VerticalAlignment="Bottom" Click="btn_set_inv_for_Click"/>
-
-                <Button Content="Применить" Name="btn_set_on_last" Grid.Row="6" VerticalAlignment="Bottom" Width="90" HorizontalAlignment="Center" Visibility="Hidden" Click="btn_set_on_last_Click"/>
-            </Grid>
-
-            <Grid Name="parametr_ltx" Visibility="Hidden">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="220*"/>
-                    <RowDefinition Height="388*"/>
-                    <RowDefinition Height="32*"/>
-                </Grid.RowDefinitions>
-                <Border BorderThickness="1" BorderBrush="#303030" Grid.Row="0" Grid.RowSpan="2"/>
-                <Label Content="Секции" Name="lab_con_sect"/>
-                <ListBox Name="ltx_section_list" Margin="0,23,0,0" MouseDoubleClick="ltx_section_list_MouseDoubleClick" MouseLeftButtonUp="ltx_section_list_MouseLeftButtonUp">
-                    <ListBox.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="Создать секцию" Name="crt_section" Click="crt_section_Click"></MenuItem>
-                            <MenuItem Header="Удалить секцию" Name="del_section" Click="del_section_Click"/>
-                        </ContextMenu>
-                    </ListBox.ContextMenu>
-                </ListBox>
-                <Button Grid.Row="2" Content="Сохранить файл" Name="btn_ltx_save" Click="btn_ltx_save_Click"/>
-
-                <Grid Grid.Row="1" Name="prm_ltx_default">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="90"/>
-                        <ColumnDefinition Width="35*"/>
-                        <ColumnDefinition Width="8*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="25"/>
-                        <RowDefinition Height="25"/>
-                        <RowDefinition Height="17*"/>
-                        <RowDefinition Height="36*"/>
-
-                    </Grid.RowDefinitions>
-
-                    <Label Content="Имя секции" Grid.Row="0" Grid.Column="0" Name="lab_con_name"/>
-                    <Label Content="Родитель" Grid.Row="1" Grid.Column="0" Name="lab_con_heir"/>
-
-                    <TextBox Grid.Row="0" Grid.Column="1" Name="txt_prm_section" Tag="section" KeyUp="txt_prm_section_KeyUp"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" Name="txt_prm_heir" Tag="heir" KeyUp="txt_prm_heir_KeyUp"/>
-
-                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" BorderThickness="1" BorderBrush="#303030"/>
-                    <Image Name="img_pre_icon" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Visibility="Visible"/>
-                    <TreeView Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Name="tree_parametr"/>
+                            syntax:SyntaxBox.ExpandTabs="True"
+                            syntax:SyntaxBox.AutoIndent="True"
+                            syntax:SyntaxBox.ShowLineNumbers="True"
+                            syntax:SyntaxBox.LineNumbersBackground="#464646"
+                            syntax:SyntaxBox.LineNumbersForeground="SlateGray" >
+                        <!---Setting for Syntax-->
+                        <syntax:SyntaxBox.SyntaxDrivers>
+                            <syntax:SyntaxConfig>
+                                <syntax:KeywordRule Foreground="Blue"
+                                    Keywords="true,false,on,off,function,class,__init,end,if,nil,return,not,else,local,then,has_alife_info,printf,console.log"
+                                    />
+                                <syntax:RegexRule Op="Line" Foreground="Black" Pattern="\(([^\)]*)\)"/>
+                                <syntax:KeywordRule Foreground="DarkGoldenrod" Keywords="self"/>
+                                <syntax:KeywordRule Foreground="Purple" Keywords="!,+,-,/,*,%,=,&amp;,^,|,&lt;,&gt;" WholeWordsOnly="False"/>
+                                <!--String-->
+                                <syntax:RegexRule Op="Line" Foreground="Red" Pattern="&quot;(?:[^&quot;\\]|\\.)*&quot;" />
+                                <!--Comment-->
+                                <syntax:RegexRule Op="Line" Foreground="DarkGreen" Pattern="--.*" />
+                            </syntax:SyntaxConfig>
+                        </syntax:SyntaxBox.SyntaxDrivers>
+                    </TextBox>
                 </Grid>
             </Grid>
-            
-
-            <Grid Name="parametr_xml_strings" Visibility="Hidden">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="405*"/>
-                    <RowDefinition Height="28*"/>
-                </Grid.RowDefinitions>
-
-
+            <Grid x:Name="MenuLeft" Grid.Row="1" Grid.Column="0" Visibility="Collapsed">
+                <Grid x:Name="browser" Visibility="Collapsed">
+                    <TreeView Name="treeBrowser" MouseDoubleClick="treeBrowser_MouseDoubleClick" KeyUp="treeBrowser_KeyUp" SelectedItemChanged="treeBrowser_SelectedItemChanged"  MouseLeftButtonUp="treeBrowser_MouseLeftButtonUp" MouseEnter="treeBrowser_MouseEnter" MouseLeave="treeBrowser_MouseLeave">
+                        <TreeView.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Name="brow_menu_add" Header="Добавить файл" Click="brow_menu_add_Click"/>
+                                <MenuItem Name="brow_menu_del" Header="Удалить файл" Click="brow_menu_del_Click"/>
+                                <MenuItem Name="brow_menu_add_marker" Header="Добавить маркер" Click="brow_menu_add_marker_Click"/>
+                                <MenuItem Name="brow_menu_del_marker" Header="Удалить маркер" Click="brow_menu_del_marker_Click"/>
+                                <MenuItem Name="brow_menu_import_files" Header="Импорт файлов" Click="brow_menu_import_files_Click"/>
+                            </ContextMenu>
+                        </TreeView.ContextMenu>
+                    </TreeView>
+                </Grid>
             </Grid>
-
-            <Grid Name="parametr_scripts" Visibility="Hidden">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="223*"/>
-                    <RowDefinition Height="210*"/>
-                </Grid.RowDefinitions>
-                <Label Content="Функции в скрипте" Foreground="White"/>
-                <ListBox Name="scripts_list_func" MouseDoubleClick="scripts_list_func_MouseDoubleClick" Foreground="#FFB7B7FF" Margin="0,30,0,0"/>
-
-            </Grid>
-
-            <Grid Name="parametr_ogf" Visibility="Visible">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="61*"/>
-                    <RowDefinition Height="373*"/>
-                </Grid.RowDefinitions>
-                <Image HorizontalAlignment="Center" Width="50" Name="img_cion_valerok" MouseLeftButtonUp="Label_Click">
-
-                </Image>
-                <Label Content="ValeroK" HorizontalAlignment="Center" MouseLeftButtonUp="Label_Click"/>
-                <TreeView Grid.Row="1" Name="browser_textures">
-                    <TreeView.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="Копировать путь" Name="brow_textures_copyPath" Click="brow_textures_copyPath_Click"/>
-                        </ContextMenu>
-                    </TreeView.ContextMenu>
-                </TreeView>
-            </Grid>
-            
         </Grid>
+        
+        <DockingManager HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                        DocumentsSource="{Binding Files}"
+                        AnchorablesSource="{Binding Tools}"
+                        Theme="{Binding SelectedTheme.Item2}"
+                        ActiveContent="{Binding ActiveContent, Mode=TwoWay}"
+                        LayoutItemTemplateSelector="{StaticResource ViewModelDataTemplateSelector}"
+                        LayoutItemContainerStyleSelector="{StaticResource ViewModelStyleSelector}"
+                        LayoutUpdateStrategy ="{StaticResource LayoutUpdate}">
+            <DockingManager.AnchorableTitleTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding IconSource}" Margin="0,0,4,0"/>
+                        <TextBlock Text="{Binding Title}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </DockingManager.AnchorableTitleTemplate>
+            <DockingManager.DocumentHeaderTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding IconSource}" Margin="0,0,4,0"/>
+                        <TextBlock Text="{Binding Title}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </DockingManager.DocumentHeaderTemplate>
+            <LayoutRoot x:Name="_layoutRoot">
+                <LayoutPanel Orientation="Vertical" x:Name="PanelV">
+                    <LayoutPanel Orientation="Horizontal" x:Name="PanelH">
+                        <LayoutAnchorablePane Name="MainAnchorablePane" DockWidth="260" DockMinWidth="100"/>
+                        <LayoutDocumentPaneGroup>
+                            <LayoutDocumentPane>
+                                <LayoutDocument ContentId="MainPage" IconSource="{StaticResource icon_Home}" CanClose="False">
+                                    <Grid Name="SelectGamedata" Visibility="Hidden" Background="{DynamicResource brush_Background}" HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="327*"/>
+                                        </Grid.RowDefinitions>
 
-    </Grid>
+                                        <Label Content="Выберите папку gamedata для работы" Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                        <TextBox Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Gamedata.Root.FullName}" Name="txtSelectGamedata" KeyUp="txtSelectGamedata_KeyUp" TextChanged="txtSelectGamedata_TextChanged_1" HorizontalAlignment="Stretch"/>
+                                        <Button Grid.Row="1" Grid.ColumnSpan="3" Content="..." Name="btnSelectGamedata" Width="40" HorizontalAlignment="Right" Click="btnSelectGamedata_Click"/>
+                                        <HeaderedContentControl Header="Кодировка" Grid.Row="2" Grid.ColumnSpan="3" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,4">
+                                            <ComboBox Width="200" Name="comboEncoding" SelectionChanged="comboEncoding_SelectionChanged">
+                                                <ComboBoxItem Content="UTF-8"/>
+                                                <ComboBoxItem Content="Windows-1251"/>
+                                            </ComboBox>
+                                        </HeaderedContentControl>
+                                        <CheckBox Name="check_useIgnore" Content="Пути для игнорирования" Foreground="White" Margin="5,0,0,0" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Top"/>
+                                        <ListBox Name="list_ignore" Grid.Row="3" Grid.Column="2">
+                                            <ListBox.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Header="Выбрать всё" Name="ignoreShellAll" Click="ignoreShellAll_Click"/>
+                                                    <MenuItem Header="Снять всё" Name="ignoreShellZeroAll" Click="ignoreShellZeroAll_Click"/>
+                                                </ContextMenu>
+                                            </ListBox.ContextMenu>
+                                        </ListBox>
+                                    </Grid>
+                                </LayoutDocument>
+                            </LayoutDocumentPane>
+                        </LayoutDocumentPaneGroup>
+                        <LayoutAnchorablePane Name="DetailAnchorablePane" DockMinWidth="100" DockWidth="260">
+                            <LayoutAnchorable ContentId="Properties2" Title="Свойства2">
+                                <Grid x:Name="MenuRight" Grid.Row="1" Grid.Column="4">
+                                    <Grid Name="parametr_dds" Visibility="Hidden">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="85*"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="150*"/>
+                                        </Grid.RowDefinitions>
 
+                                        <Label Grid.Row="1" Content="Разметка:"/>
+
+                                        <Button Content="Копировать" Name="btn_copy_grid_dds_short" Grid.Row="3" Height="25" VerticalAlignment="Center"/>
+                                        <Button Content="Убрать выделение" Grid.Row="4" Height="25" Name="btn_grid_clear_dds" Click="btn_grid_clear_dds_Click" />
+                                        <Button Content="Установить для" Grid.Row="5" Name="btn_set_inv_for" Height="25" VerticalAlignment="Bottom" Click="btn_set_inv_for_Click"/>
+                                        <Button Content="Применить" Name="btn_set_on_last" Grid.Row="6" VerticalAlignment="Bottom" Width="90" HorizontalAlignment="Center" Visibility="Hidden" Click="btn_set_on_last_Click"/>
+                                    </Grid>
+
+                                    <Grid Name="parametr_xml_strings" Visibility="Hidden">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="405*"/>
+                                            <RowDefinition Height="28*"/>
+                                        </Grid.RowDefinitions>
+                                    </Grid>
+
+                                    <Grid Name="parametr_scripts" Visibility="Hidden">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="223*"/>
+                                            <RowDefinition Height="210*"/>
+                                        </Grid.RowDefinitions>
+                                        <Label Content="Функции в скрипте"/>
+                                        <ListBox Name="scripts_list_func" MouseDoubleClick="scripts_list_func_MouseDoubleClick" Foreground="#FFB7B7FF" Margin="0,30,0,0"/>
+                                    </Grid>
+
+                                    <Grid Name="parametr_ogf" Visibility="Hidden">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <TreeView Name="browser_textures">
+                                            <TreeView.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Header="Копировать путь" Name="brow_textures_copyPath" Click="brow_textures_copyPath_Click"/>
+                                                </ContextMenu>
+                                            </TreeView.ContextMenu>
+                                        </TreeView>
+                                    </Grid>
+                                </Grid>
+                            </LayoutAnchorable>
+                        </LayoutAnchorablePane>
+                    </LayoutPanel>
+                    <LayoutPanel Orientation="Horizontal" DockHeight="150">
+                        <LayoutAnchorablePane Name="BottomAnchorablePane" DockHeight="260" DockMinHeight="100"/>
+                    </LayoutPanel>
+                </LayoutPanel>
+            </LayoutRoot>
+        </DockingManager>
+    </DockPanel>
 </Window>

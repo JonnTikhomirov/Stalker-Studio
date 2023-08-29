@@ -5,192 +5,119 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stalker_Studio"
         mc:Ignorable="d"
-        Title="Настройки Stalker Studio" Height="356" Width="574" Background="#262626" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+        Style="{StaticResource style_Window}"
+        Title="Настройки Stalker Studio" Height="356" MinWidth="620" Width="620" WindowStartupLocation="CenterOwner">
+    <DockPanel>
+        <ToolBarPanel DockPanel.Dock="Top">
+            <ToolBar >
+                <Button Name="btn_save" Click="btn_save_Click" Content="Сохранить"/>
+                <Button Name="btn_restore" Content="Восстановить"/>
+            </ToolBar>
+        </ToolBarPanel>
+        <TabControl TabStripPlacement="Left">
+            <TabItem Header="Основные">
+                <StackPanel Orientation="Vertical">
+                    <HeaderedContentControl Header="Кодировка Ltx">
+                        <ComboBox Name="encoding_Ltx" MinWidth="120">
+                            <ComboBoxItem Content="UTF-8"/>
+                            <ComboBoxItem Content="Windows-1251"/>
+                        </ComboBox>
+                    </HeaderedContentControl>
+                    <HeaderedContentControl Header="Кодировка XML">
+                        <ComboBox Name="encoding_XML" MinWidth="111">
+                            <ComboBoxItem Content="UTF-8"/>
+                            <ComboBoxItem Content="Windows-1251"/>
+                        </ComboBox>
+                    </HeaderedContentControl>
+                    <HeaderedContentControl Header="Ссылка на иконки предметов">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" Name="txt_link_icon" TextWrapping="Wrap" Text="" HorizontalAlignment="Stretch"/>
+                            <Button Grid.Column="1" Name="btn_sel_icon" Content="..." Width="32" Click="btn_sel_icon_Click"/>
+                        </Grid>
+                    </HeaderedContentControl>
 
-
-    <Window.Resources>
-
-
-        <Style TargetType="ListBox" x:Key="nonScrollHor">
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"/>
-        </Style>
-
-        <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-
-
-            <Setter Property="BorderBrush" Value="#464646"></Setter>
-            <Setter Property="Background" Value="#464646"/>
-            <Setter Property="Foreground" Value="white"/>
-
-
-            <Setter Property="Template">
-
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type MenuItem}">
-
-                        <Border x:Name="Bd" Padding="17,0,17,0" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0 0 0 0" Background="{TemplateBinding Background}" SnapsToDevicePixels="True" Uid="Border_38">
-                            <ContentPresenter x:Name="ContentPresenter"  Content="{TemplateBinding Header}" ContentSource="Header" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Uid="ContentPresenter_33"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsHighlighted" Value="True">
-                                <Setter Property="Background" TargetName="Bd" Value="#262626"/>
-                                <Setter Property="BorderBrush" TargetName="Bd" Value="White"/>
-
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="BorderThickness" Value="0 0 0 0"/>
-        </Style>
-
-
-        <Style TargetType="TreeView">
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"></Setter>
-            <Setter Property="ScrollViewer.Background" Value="#262626"/>
-            <Setter Property="Background" Value="#262626"/>
-        </Style>
-
-        <Style TargetType="TreeViewItem">
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-
-        <Style TargetType="Label">
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-        <Style TargetType="TextBox">
-            <Setter Property="Background" Value="#262626"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-        <Style TargetType="Button">
-            <Setter Property="Background" Value="#303030"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-        <Style TargetType="ListBox">
-            <Setter Property="Background" Value="#303030"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-
-
-        <Style TargetType="CheckBox">
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-
-
-    </Window.Resources>
-
-
-
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="87"/>
-            <ColumnDefinition Width="1*"/>
-        </Grid.ColumnDefinitions>
-
-        <ListBox Name="lst_setting" Grid.Column="0" Background="#262626" Foreground="White" SelectionChanged="ListBox_SelectionChanged" >
-            <ListBoxItem Content="Основные"/>
-            <ListBoxItem Content="Вид"/>
-            <ListBoxItem Content="Импорт"/>
-            <ListBoxItem Content="Игнориров..."/>
-            <ListBoxItem Content="Подсказки"/>
-        </ListBox>
-
-        <Grid Name="grid_default_setting" Grid.Column="1" Visibility="Hidden">
-            <Label Content="Кодировка Ltx -" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-            <Label Content="Кодировка XML -" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top"/>
-            <ComboBox Name="encoding_Ltx" HorizontalAlignment="Left" Margin="106,14,0,0" VerticalAlignment="Top" Width="120">
-                <ComboBoxItem Content="UTF-8"/>
-                <ComboBoxItem Content="Windows-1251"/>
-            </ComboBox>
-            <ComboBox Name="encoding_XML" HorizontalAlignment="Left" Margin="115,47,0,0" VerticalAlignment="Top" Width="111">
-                <ComboBoxItem Content="UTF-8"/>
-                <ComboBoxItem Content="Windows-1251"/>
-            </ComboBox>
-            <Label Content="Ссылка на иконки предметов -" HorizontalAlignment="Left" Margin="10,76,0,0" VerticalAlignment="Top"/>
-            <TextBox Name="txt_link_icon" HorizontalAlignment="Left" Margin="191,82,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="233"/>
-            <Button Name="btn_sel_icon" Content="..." HorizontalAlignment="Left" Margin="426,81,0,0" VerticalAlignment="Top" Width="32" Click="btn_sel_icon_Click"/>
-            <CheckBox Content="Автосохранение" Name="check_autosave" HorizontalAlignment="Left" Margin="16,107,0,0" VerticalAlignment="Top"/>
-            <CheckBox Name="check_mode_ltx" Content="Продвинутый режим Ltx" HorizontalAlignment="Left" Margin="16,139,0,0" VerticalAlignment="Top" Width="198"/>
-            <CheckBox Name="check_all_param" Content="Загрузка всех параметров из Ltx (Для не продвинутого режима)" HorizontalAlignment="Left" Margin="16,170,0,0" VerticalAlignment="Top"/>
-            <CheckBox Name="check_replace_link" Content="Загрузка текста ссылок" HorizontalAlignment="Left" Margin="16,196,0,0" VerticalAlignment="Top"/>
-            <TextBox Name="links" HorizontalAlignment="Left" Margin="16,216,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442"/>
-
-            <CheckBox Name="check_usePrm" Content="Загрузка описания в окно" HorizontalAlignment="Left" Margin="17,240,0,0" VerticalAlignment="Top"/>
-
-        </Grid>
-        <Grid Name="grid_vid_setting" Grid.Column="1" Visibility="Hidden">
-
-            <Border BorderBrush="#202020" BorderThickness="2" Margin="0,0,0,142">
-
-            </Border>
-            <Label Content="Сетка:" Margin="0,0,283,288"/>
-            <CheckBox Content="Показ сетки dds" HorizontalAlignment="Left" Margin="10,33,0,0" Name="check_see_setka" VerticalAlignment="Top"/>
-            <Label Content="Размер деления сетки по X -" HorizontalAlignment="Left" Margin="6,48,0,0" VerticalAlignment="Top"/>
-            <TextBox Name="txt_setka_x" HorizontalAlignment="Left" Margin="173,54,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="83"/>
-            <Label Content="Размер деления сетки по Y -" HorizontalAlignment="Left" Margin="6,74,0,0" VerticalAlignment="Top"/>
-            <TextBox Name="txt_setka_y" HorizontalAlignment="Left" Margin="173,80,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="83"/>
-
-
-            <Border BorderBrush="#202020" BorderThickness="2" Margin="0,174,0,0">
-            </Border>
-            <Label Content="Обозреватель" Margin="0,170,336,116"/>
-            <Label Content="Режим отображения обозревателя -" Margin="0,200,258,89"/>
-            <ComboBox  Margin="229,200,0,89" IsReadOnly="True" Name="comboMode">
-                <ComboBoxItem Content="Стандартный"/>
-                <ComboBoxItem Content="Русский"/>
-                <ComboBoxItem Content="Русский.Первая секция"/>
-                <ComboBoxItem Content="Русский.Первое имя секции"/>
-            </ComboBox>
-
-            <Label Content="Режим отображения секций -" Margin="0,257,258,32" Visibility="Hidden"/>
-            <ComboBox  Margin="229,257,0,32" IsReadOnly="True" Name="comboSection" Visibility="Hidden">
-                <ComboBoxItem Content="Стандартный"/>
-                <ComboBoxItem Content="Имя в игре"/>
-            </ComboBox>
-            <CheckBox Name="check_markers" Content="Загрузка Маркеров" HorizontalAlignment="Left" Margin="10,267,0,0" VerticalAlignment="Top"/>
-            <Button Content="Убрать все Маркеры" HorizontalAlignment="Left" Margin="158,264,0,0" VerticalAlignment="Top" Click="Button_Click" Width="133"/>
-
-
-        </Grid>
-        <Grid Name="grid_import_setting" Grid.Column="1" Visibility="Hidden">
-            <Label HorizontalAlignment="Left" Margin="0,10,0,0" Content="Резерв. Импорт gamedata-" VerticalAlignment="Top">
-                <Label.ToolTip>
-                    <ToolTip BorderBrush="#262626" Background="#262626">
-                        <Label BorderBrush="#262626" Content="Резерв. Импорт для проекта и замены файлы" Background="#262626" Foreground="Green"/>
-                    </ToolTip>
-                </Label.ToolTip>
-            </Label>
-            <TextBox Name="txt_importG" HorizontalAlignment="Center" VerticalAlignment="Top" Width="280" Height="20" Margin="120 15 0 0">
-                <TextBox.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Вставить" Name="MN_IMPORT_PASTE" Click="MN_IMPORT_PASTE_Click"/>
-                        <MenuItem Header="Копировать" Name="MN_IMPORT_COPY" Click="MN_IMPORT_COPY_Click"/>
-                        <MenuItem Header="Перейти" Name="MN_IMPORT_GO" Click="MN_IMPORT_GO_Click"/>
-                        <MenuItem Header="Изменить игнорирование" Name="MN_IGNORE_GO" Click="MN_IGNORE_GO_Click"/>
-                    </ContextMenu>
-                </TextBox.ContextMenu>
-            </TextBox>
-            <Button Click="btn_dialog_import_Click" Name="btn_dialog_import" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 15 0 0" Width="35" Content="..."/>
-
-        </Grid>
-        <Grid Name="grid_ignore_setting" Grid.Column="1" Visibility="Hidden">
-            <Button VerticalAlignment="Top" Height="20" Content="Очистить игнорирование" Name="btn_ignore_clear" Click="btn_ignore_clear_Click"/>
-        </Grid>
-
-        <Grid Name="grid_hints_setting" Grid.Column="1" Visibility="Visible">
-            <CheckBox Name="check_useHints" Content="Использовать подсказки в скриптах" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-            <CheckBox Name="check_loadSection" Content="Загружать секции в подсказки" HorizontalAlignment="Left" Margin="10,40" VerticalAlignment="Top"/>
-            <CheckBox Name="check_startPos" Content="Фиксированная позиция" HorizontalAlignment="Left" Margin="10,70" VerticalAlignment="Top"/>
-            <CheckBox Name="check_loadinfoportion" Content="Загружать инфо-поршни в подсказки" HorizontalAlignment="Left" Margin="10,100" VerticalAlignment="Top"/>
-        </Grid>
-
-        <Button Name="btn_save" Click="btn_save_Click" Content="Сохранить" Width="100" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
-    </Grid>
+                    <CheckBox Content="Автосохранение" Name="check_autosave" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <CheckBox Name="check_mode_ltx" Content="Продвинутый режим Ltx" HorizontalAlignment="Left" VerticalAlignment="Top" Width="198"/>
+                    <CheckBox Name="check_all_param" Content="Загрузка всех параметров из Ltx (Для не продвинутого режима)" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <CheckBox Name="check_replace_link" Content="Загрузка текста ссылок" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <CheckBox Name="check_usePrm" Content="Загрузка описания в окно" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Name="links" TextWrapping="Wrap" HorizontalAlignment="Stretch"/>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Вид">
+                <StackPanel Orientation="Vertical">
+                    <Expander Header="Сетка">
+                        <StackPanel Orientation="Vertical">
+                            <CheckBox Content="Показ сетки dds" Name="check_see_setka"/>
+                            <HeaderedContentControl Header="Размер деления сетки по X -">
+                                <TextBox Name="txt_setka_x" TextWrapping="Wrap" Text="" Width="83"/>
+                            </HeaderedContentControl>
+                            <HeaderedContentControl Header="Размер деления сетки по Y -">
+                                <TextBox Name="txt_setka_y" TextWrapping="Wrap" Text="" Width="83"/>
+                            </HeaderedContentControl>
+                        </StackPanel>
+                    </Expander>
+                    <Expander Header="Обозреватель">
+                        <StackPanel Orientation="Vertical">
+                            <HeaderedContentControl Header="Режим отображения обозревателя">
+                                <ComboBox IsReadOnly="True" Name="comboMode">
+                                    <ComboBoxItem Content="Стандартный"/>
+                                    <ComboBoxItem Content="Русский"/>
+                                    <ComboBoxItem Content="Русский.Первая секция"/>
+                                    <ComboBoxItem Content="Русский.Первое имя секции"/>
+                                </ComboBox>
+                            </HeaderedContentControl>
+                            <HeaderedContentControl Header="Режим отображения секций" Visibility="Hidden">
+                                <ComboBox IsReadOnly="True" Name="comboSection" Visibility="Hidden">
+                                    <ComboBoxItem Content="Стандартный"/>
+                                    <ComboBoxItem Content="Имя в игре"/>
+                                </ComboBox>
+                            </HeaderedContentControl>
+                            <CheckBox Name="check_markers" Content="Загрузка Маркеров"/>
+                            <Button Content="Убрать все Маркеры" Click="Button_Click" HorizontalAlignment="Left"/>
+                        </StackPanel>
+                    </Expander>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Импорт">
+                <StackPanel Orientation="Vertical">
+                    <Label HorizontalAlignment="Left" Content="Резерв. импорт gamedata" VerticalAlignment="Top">
+                        <Label.ToolTip>
+                            <ToolTip BorderBrush="#262626" Background="#262626">
+                                <Label BorderBrush="#262626" Content="Резерв. импорт для проекта и замены файлы" Background="#262626" Foreground="Green"/>
+                            </ToolTip>
+                        </Label.ToolTip>
+                    </Label>
+                    <Grid>
+                        <TextBox Name="txt_importG" HorizontalAlignment="Stretch">
+                            <TextBox.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Вставить" Name="MN_IMPORT_PASTE" Click="MN_IMPORT_PASTE_Click"/>
+                                    <MenuItem Header="Копировать" Name="MN_IMPORT_COPY" Click="MN_IMPORT_COPY_Click"/>
+                                    <MenuItem Header="Перейти" Name="MN_IMPORT_GO" Click="MN_IMPORT_GO_Click"/>
+                                    <MenuItem Header="Изменить игнорирование" Name="MN_IGNORE_GO" Click="MN_IGNORE_GO_Click"/>
+                                </ContextMenu>
+                            </TextBox.ContextMenu>
+                        </TextBox>
+                        <Button Click="btn_dialog_import_Click" Name="btn_dialog_import" HorizontalAlignment="Right" Width="35" Content="..."/>
+                    </Grid>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Игнорирование">
+                <Button VerticalAlignment="Top" Content="Очистить игнорирование" Name="btn_ignore_clear" Click="btn_ignore_clear_Click" Padding="8"/>
+            </TabItem>
+            <TabItem Header="Подсказки">
+                <StackPanel Orientation="Vertical">
+                    <CheckBox Name="check_useHints" Content="Использовать подсказки в скриптах"/>
+                    <CheckBox Name="check_loadSection" Content="Загружать секции в подсказки"/>
+                    <CheckBox Name="check_startPos" Content="Фиксированная позиция"/>
+                    <CheckBox Name="check_loadinfoportion" Content="Загружать инфо-поршни в подсказки"/>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
 </Window>

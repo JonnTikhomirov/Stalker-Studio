@@ -23,7 +23,7 @@ namespace Stalker_Studio
         public SettingGroupsElementWin()
         {
             InitializeComponent();
-
+            InterfaceHelper.InitializeWindow(this);
             InitializerComponentsLtx();
         }
         Dictionary<string, string> ltx_parametr = new Dictionary<string, string>();

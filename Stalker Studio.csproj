@@ -8,12 +8,13 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Stalker_Studio</RootNamespace>
     <AssemblyName>Stalker Studio</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -43,18 +44,38 @@
     <ApplicationIcon>Dop %281%29.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AvalonDock, Version=4.70.3.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>packages\Dirkster.AvalonDock.4.70.3\lib\net40\AvalonDock.dll</HintPath>
+    </Reference>
     <Reference Include="FTextures">
-      <HintPath>..\..\STALKER\SpawnerEditor\StalkerNew\FTextures\bin\Release\FTextures.dll</HintPath>
+      <HintPath>DLL\FTextures.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.AvalonEdit, Version=6.1.3.50, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
+      <HintPath>packages\AvalonEdit.6.1.3.50\lib\net45\ICSharpCode.AvalonEdit.dll</HintPath>
+    </Reference>
+    <Reference Include="IntervalTree, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\RangeTree.3.0.1\lib\net45\IntervalTree.dll</HintPath>
     </Reference>
     <Reference Include="LtxLanguage, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\STALKER\SpawnerEditor\StalkerNew\StalkerWeaponToolKit\bin\Release\LtxLanguage.dll</HintPath>
+      <HintPath>DLL\LtxLanguage.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\Motion\MotionEngineEditor\bin\Debug\Bin32\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PropertyTools, Version=3.1.0.0, Culture=neutral, PublicKeyToken=ea0c9f2b460934d0, processorArchitecture=MSIL">
+      <HintPath>packages\PropertyTools.3.1.0\lib\net45\PropertyTools.dll</HintPath>
+    </Reference>
+    <Reference Include="PropertyTools.Wpf, Version=3.1.0.0, Culture=neutral, PublicKeyToken=ea0c9f2b460934d0, processorArchitecture=MSIL">
+      <HintPath>packages\PropertyTools.Wpf.3.1.0\lib\net45\PropertyTools.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="StalkerHierarchyElement">
+      <HintPath>DLL\StalkerHierarchyElement.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -65,6 +86,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UI.SyntaxBox">
+      <HintPath>DLL\UI.SyntaxBox.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -82,8 +106,54 @@
     <Compile Include="ByWin.xaml.cs">
       <DependentUpon>ByWin.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Json\xml_json.cs" />
+    <Compile Include="Common\Common.cs" />
+    <Compile Include="Common\ReadingContext.cs" />
+    <Compile Include="Common\ISerializable.cs" />
+    <Compile Include="Common\IUpdatable.cs" />
+    <Compile Include="Common\ObjectTextFileModel.cs" />
+    <Compile Include="Common\ParsingHelper.cs" />
+    <Compile Include="Common\SerializationException.cs" />
+    <Compile Include="Common\TextNodes.Parsing.cs" />
+    <Compile Include="Common\TextNodes.cs" />
+    <Compile Include="Common\TreeModel.cs" />
+    <Compile Include="Interface\Designer\DesignerItemDecorator.cs" />
+    <Compile Include="Interface\Designer\RotateThumb.cs" />
+    <Compile Include="Interface\Designer\ResizeThumb.cs" />
+    <Compile Include="Interface\Designer\MoveThumb.cs" />
+    <Compile Include="Interface\Designer\DesignerOther.cs" />
+    <Compile Include="Interface\ViewModel\BrowserViewModel.Commands.cs" />
+    <Compile Include="Interface\ViewModel\TextureViewModel.cs" />
+    <Compile Include="Interface\ViewModel\OGFViewModel.cs" />
+    <Compile Include="Interface\ViewModel\MessageListViewModel.cs" />
+    <Compile Include="Interface\ViewModel\ItemsViewModel.cs" />
+    <Compile Include="Interface\XAMLHelper.cs" />
+    <Compile Include="Interface\AvalonDock\AvalonDockDarkTheme.cs" />
+    <Compile Include="Interface\AvalonDock\Menu\MenuKeys.cs" />
+    <Compile Include="Interface\AvalonDock\ResourceKeys.cs" />
+    <Compile Include="Interface\CommandsSelectors.cs" />
+    <Compile Include="Interface\InterfaceHelper.cs" />
+    <Compile Include="Interface\PropertyGrid\PropertyGrid.cs" />
+    <Compile Include="Interface\PropertyGrid\ValidationResultEx.cs" />
+    <Compile Include="Interface\ViewModel\BrowserViewModel.cs" />
+    <Compile Include="Interface\ViewModel\FileViewModel.cs" />
+    <Compile Include="Interface\ViewModel\HierarchicalViewModel.Commands.cs" />
+    <Compile Include="Interface\ViewModel\LtxViewModel.cs" />
+    <Compile Include="Interface\ViewModel\PaneViewModel.cs" />
+    <Compile Include="Interface\ViewModel\PropertiesViewModel.cs" />
+    <Compile Include="Interface\ViewModel\RelayCommand.cs" />
+    <Compile Include="Interface\ViewModel\TextFileViewModel.cs" />
+    <Compile Include="Interface\ViewModel\ToolViewModel.cs" />
+    <Compile Include="Interface\ViewModel\HierarchicalViewModel.cs" />
+    <Compile Include="Interface\ViewModel\ViewModelBase.cs" />
+    <Compile Include="Interface\ViewModelSelectors.cs" />
+    <Compile Include="Interface\ViewModel\Workspace.Commands.cs" />
+    <Compile Include="Interface\ViewModel\Workspace.cs" />
     <Compile Include="Json\xrSDK.Editor.DialogEditor.settings.json.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="SettingGroupsElementWin.xaml.cs">
       <DependentUpon>SettingGroupsElementWin.xaml</DependentUpon>
     </Compile>
@@ -91,14 +161,23 @@
       <DependentUpon>SettingWin.xaml</DependentUpon>
     </Compile>
     <Compile Include="StalkerClass\DDS_Invoker.cs" />
+    <Compile Include="Common\FileSystemModel.cs" />
+    <Compile Include="StalkerClass\GamedataManager.cs" />
     <Compile Include="StalkerClass\HierarchyLtx\LtxFile.cs" />
     <Compile Include="StalkerClass\HintsWin.xaml.cs">
       <DependentUpon>HintsWin.xaml</DependentUpon>
     </Compile>
     <Compile Include="StalkerClass\HintWordStack.cs" />
+    <Compile Include="StalkerClass\LuaModel.Parsing.cs" />
+    <Compile Include="StalkerClass\LuaModel.cs" />
+    <Compile Include="StalkerClass\LtxModel.cs" />
+    <Compile Include="StalkerClass\LtxModel.Parsing.cs" />
+    <Compile Include="StalkerClass\TextureModel.cs" />
+    <Compile Include="StalkerClass\OGFFile.cs" />
     <Compile Include="StalkerClass\Scripts\IndexerScripts.cs" />
+    <Compile Include="Common\SerializableFileModel.cs" />
+    <Compile Include="Common\TextFileModel.cs" />
     <Compile Include="StalkerClass\WordDescription.cs" />
-    <Compile Include="StalkerClass\Xml\XML_Characters.cs" />
     <Compile Include="StalkerClass\Xml\Xml_Text_File.cs" />
     <Compile Include="StalkerWin\AddIconForIconWin.xaml.cs">
       <DependentUpon>AddIconForIconWin.xaml</DependentUpon>
@@ -167,6 +246,270 @@
     <Page Include="ByWin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interface\AvalonDock\DarkBrushs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interface\AvalonDock\DarkTheme.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interface\AvalonDock\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interface\AvalonDock\IconGeometry.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interface\AvalonDock\Menu\DarkBrushs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interface\AvalonDock\Menu\MenuItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interface\AvalonDock\OverlayButtons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interface\DictionaryBaseStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interface\DictionaryComboBoxStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interface\DictionaryCommands.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interface\DictionaryDataGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interface\DictionaryDesigner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interface\DictionaryExpanderStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interface\DictionaryInterface.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interface\DictionaryListBoxStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interface\DictionaryMenuStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interface\DictionaryScrollBarStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interface\DictionaryTabControlStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interface\DictionaryToolBarStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interface\DictionaryTreeStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interface\DictionaryViewModel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interface\Icons\Class.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\ClearWindowContent.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\Close.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\CollapseAll.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\CommentCode.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\ExpandAll.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\Favorite.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\Field.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\Filter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\GoToProperty.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\Home.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\ImageMapFile.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\Log.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\LTX.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\Document.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\FolderClosed.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\Method.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\ModelThreeD.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\NewDocument.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\NewPluginDocument.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\Open.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\OpenFile.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\OpenProjectFolder.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\DictionaryIcons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interface\Icons\ParagraphHardReturn.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\Property.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\RADIATION.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\Rename.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\SamplesFolder.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\Save.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\SaveAll.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\SaveAs.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\Script.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\Search.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\StatusHidden.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\StatusInformation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\StatusInvalid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\StatusWarning.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\TestCoveredFailing.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\TextFile.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\DictionaryPropertyGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Interface\Icons\TextSpaceAfter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\__TEST.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\UIExplorer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Interface\Icons\LinkFile.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -273,11 +616,6 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -285,28 +623,23 @@
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="StalkerWin\AddIconWinForms.resx">
       <DependentUpon>AddIconWinForms.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="ClassDiagramGamedata.cd" />
+    <None Include="ClassDiagramViewModel.cd" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Resource Include="Resources\LtxHighlighting.xshd" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\StalkerHierarchyElement\StalkerHierarchyElement.csproj">
-      <Project>{4d318db4-97a0-41f8-9328-b500c33efe0e}</Project>
-      <Name>StalkerHierarchyElement</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UI.SyntaxBox\UI.SyntaxBox.csproj">
-      <Project>{092063a5-5be7-42a8-b9ce-c8cab526240d}</Project>
-      <Name>UI.SyntaxBox</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Dop %281%29.ico" />
@@ -314,6 +647,13 @@
   <ItemGroup>
     <Folder Include="StalkerWin\Commands\" />
     <Folder Include="StalkerWin\convert\Levels\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\LuaHighlighting.xshd" />
+    <None Include="Resources\TextFile1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\MainIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
