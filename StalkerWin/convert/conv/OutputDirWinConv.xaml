@@ -5,100 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stalker_Studio.StalkerWin.convert.conv"
         mc:Ignorable="d"
-        Title="Конвертация" Height="275" Width="587" Background="#FF2C3348" WindowStartupLocation="CenterOwner">
-    <Window.Resources>
+        Style="{StaticResource style_Window}"
+        Title="Конвертация" Height="195" Width="587" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
 
-
-        <Style TargetType="ListBox" x:Key="nonScrollHor">
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"/>
-        </Style>
-
-        <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-
-
-            <Setter Property="BorderBrush" Value="#464646"></Setter>
-            <Setter Property="Background" Value="#464646"/>
-            <Setter Property="Foreground" Value="white"/>
-
-
-
-
-            <Setter Property="Template">
-
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type MenuItem}">
-
-                        <Border x:Name="Bd" Padding="17,0,17,0" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0 0 0 0" Background="{TemplateBinding Background}" SnapsToDevicePixels="True" Uid="Border_38">
-                            <ContentPresenter x:Name="ContentPresenter"  Content="{TemplateBinding Header}" ContentSource="Header" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Uid="ContentPresenter_33"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsHighlighted" Value="True">
-                                <Setter Property="Background" TargetName="Bd" Value="#262626"/>
-                                <Setter Property="BorderBrush" TargetName="Bd" Value="White"/>
-
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="BorderThickness" Value="0 0 0 0"/>
-        </Style>
-
-
-        <Style TargetType="TreeView">
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"></Setter>
-            <Setter Property="ScrollViewer.Background" Value="#262626"/>
-            <Setter Property="Background" Value="#262626"/>
-        </Style>
-
-        <Style TargetType="TreeViewItem">
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-
-        <Style TargetType="Label">
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-        <Style TargetType="TextBox">
-            <Setter Property="Background" Value="#262626"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-        <Style TargetType="Button">
-            <Setter Property="Background" Value="#303030"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-        <Style TargetType="ListBox">
-            <Setter Property="Background" Value="#303030"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-
-
-
-
-
-
-    </Window.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="13*"/>
-            <RowDefinition Height="21*"/>
-            <RowDefinition Height="60*"/>
-        </Grid.RowDefinitions>
-        <TextBox Grid.Row="0" Margin="5 5 50 10" Name="txt_path" KeyUp="txt_path_KeyUp"/>
-        <Button Grid.Row="0" Click="btn_select_path_Click" HorizontalAlignment="Right" Margin="0 0 3 5" Height="25" Width="40" Content="..." Name="btn_select_path"/>
-        <Label Grid.Row="1" Content="Количество файлов: " HorizontalAlignment="Left" VerticalAlignment="Center" Name="lab_counter_files"/>
-        <Label Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Top" Content="Внимание режим dds-tga может не работать (проблема в converter.exe)" Margin="0 0 5 0" Foreground="DarkRed"/>
-        <ComboBox Grid.Row="2" HorizontalAlignment="Left" Width="120" VerticalAlignment="Top" Name="comboMode" SelectedIndex="0">
-            <ComboBoxItem Content="ogg-wav"/>
-            <ComboBoxItem Content="dds-tga"/>
-        </ComboBox>
-
-        <Button Name="btn_exit" Click="btn_exit_Click" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="Выход" Height="30" Width="60"/>
-        <Button Name="btn_invoke" Click="btn_invoke_Click" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="Конвертировать" Height="30" Width="110"/>
-    </Grid>
+    <StackPanel Margin="4">
+        <HeaderedContentControl Header="Путь">
+            <Grid>
+                <TextBox Name="txt_path" KeyUp="txt_path_KeyUp" HorizontalAlignment="Stretch"/>
+                <Button Click="btn_select_path_Click" HorizontalAlignment="Right" Width="40" Content="..." Name="btn_select_path"/>
+            </Grid>
+        </HeaderedContentControl>
+        
+        <Label Content="Количество файлов: " Name="lab_counter_files"/>
+        <HeaderedContentControl Header="Режим">
+            <ComboBox HorizontalAlignment="Left" Width="120" Name="comboMode" SelectedIndex="0">
+                <ComboBoxItem Content="ogg-wav"/>
+                <ComboBoxItem Content="dds-tga"/>
+            </ComboBox>
+        </HeaderedContentControl>
+        <Label Background="{DynamicResource brush_Border}" Margin="0,6" Padding="8" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" 
+               Content="Внимание режим dds-tga может не работать (проблема в converter.exe)"/>
+        <Grid>
+            <Button Name="btn_exit" Click="btn_exit_Click" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="Выход"/>
+            <Button Name="btn_invoke" Click="btn_invoke_Click" HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="Конвертировать"/>
+        </Grid>
+    </StackPanel>
 </Window>

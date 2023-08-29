@@ -5,94 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stalker_Studio.StalkerWin"
         mc:Ignorable="d"
+        Style="{StaticResource style_Window}"
         Title="Проверка текстур" Height="298" Width="532" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded">
-
-    <Window.Resources>
-
-
-        <Style TargetType="ListBox" x:Key="nonScrollHor">
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"/>
-        </Style>
-
-        <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-
-
-            <Setter Property="BorderBrush" Value="#464646"></Setter>
-            <Setter Property="Background" Value="#464646"/>
-            <Setter Property="Foreground" Value="white"/>
-
-
-            <Setter Property="Template">
-
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type MenuItem}">
-
-                        <Border x:Name="Bd" Padding="17,0,17,0" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0 0 0 0" Background="{TemplateBinding Background}" SnapsToDevicePixels="True" Uid="Border_38">
-                            <ContentPresenter x:Name="ContentPresenter"  Content="{TemplateBinding Header}" ContentSource="Header" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Uid="ContentPresenter_33"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsHighlighted" Value="True">
-                                <Setter Property="Background" TargetName="Bd" Value="#262626"/>
-                                <Setter Property="BorderBrush" TargetName="Bd" Value="White"/>
-
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="BorderThickness" Value="0 0 0 0"/>
-        </Style>
-
-
-        <Style TargetType="TreeView">
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"></Setter>
-            <Setter Property="ScrollViewer.Background" Value="#262626"/>
-            <Setter Property="Background" Value="#262626"/>
-        </Style>
-
-        <Style TargetType="TreeViewItem">
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-
-        <Style TargetType="Label">
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-        <Style TargetType="TextBox">
-            <Setter Property="Background" Value="#262626"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-        <Style TargetType="Button">
-            <Setter Property="Background" Value="#303030"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-        <Style TargetType="ListBox">
-            <Setter Property="Background" Value="#303030"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-
-
-
-
-
-
-    </Window.Resources>
-
 
     <Grid Background="#303030">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="37*"/>
+            <ColumnDefinition Width="4"/>
             <ColumnDefinition Width="96*"/>
         </Grid.ColumnDefinitions>
         <TreeView Name="treeBrowser" Grid.Column="0" MouseLeftButtonUp="TreeView_MouseLeftButtonUp"/>
-        <TextBox IsReadOnly="True" Grid.Column="1" Name="txt_not_found" Margin="0,26,0,25" Foreground="Red"/>
-        <Label HorizontalAlignment="Left" HorizontalContentAlignment="Left" Grid.Column="1" VerticalAlignment="Top" Content="Не найденые текстуры:"/>
-        <Button Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="Выход" Width="70" Name="btn_close" Click="btn_close_Click"/>
-        <Button Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="Импорт" Width="70" Name="btn_import" Click="btn_import_Click"/>
+
+        <GridSplitter Grid.Column="1"  ResizeDirection="Columns"/>
+
+        <TextBox IsReadOnly="True" Grid.Column="2" Name="txt_not_found" Margin="0,26,0,29" Foreground="Red" HorizontalAlignment="Stretch"/>
+        <Label HorizontalAlignment="Left" HorizontalContentAlignment="Left" Grid.Column="2" VerticalAlignment="Top" Content="Не найденые текстуры:"/>
+        <Button Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="Выход" Width="70" Name="btn_close" Click="btn_close_Click"/>
+        <Button Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="Импорт" Width="70" Name="btn_import" Click="btn_import_Click"/>
     </Grid>
 </Window>

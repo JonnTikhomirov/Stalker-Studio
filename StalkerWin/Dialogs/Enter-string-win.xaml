@@ -5,25 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stalker_Studio.StalkerWin.Dialogs"
         mc:Ignorable="d"
-        Title="Enter_string_win" Height="158" Width="513" Background="#FF0F1627" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
-
-    <Window.Resources>
-        <Style TargetType="Button">
-            <Setter Property="Background" Value="#FF0F1627"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-        <Style TargetType="Label">
-            <Setter Property="Background" Value="#FF0F1627"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-        <Style TargetType="TextBox">
-            <Setter Property="Background" Value="#FF0F1627"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-    </Window.Resources>
+        Title="Enter_string_win" Height="158" Width="513" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
 
     <Grid>
         <Label Content="descr" HorizontalAlignment="Center" VerticalAlignment="Top" Name="lab_Descr"/>

@@ -25,6 +25,7 @@ namespace Stalker_Studio.StalkerWin
         public CheckTexturesWin(string PathWork)
         {
             InitializeComponent();
+            InterfaceHelper.InitializeWindow(this);
 
             if (!Directory.Exists(PathWork))
                 return;

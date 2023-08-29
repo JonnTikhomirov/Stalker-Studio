@@ -23,6 +23,7 @@ namespace Stalker_Studio.StalkerWin.convert.conv
         public OutputDirWinConv(string defPath = "")
         {
             InitializeComponent();
+            InterfaceHelper.InitializeWindow(this);
             txt_path.Text = defPath;
             InitPather();
         }

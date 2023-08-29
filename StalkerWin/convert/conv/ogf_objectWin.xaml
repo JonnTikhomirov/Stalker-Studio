@@ -5,97 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stalker_Studio.StalkerWin.convert.ogf"
         mc:Ignorable="d"
-        Title="Convert exe" Height="378" Width="904" Background="#FF2C3348" Loaded="Window_Loaded" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+        Style="{StaticResource style_Window}"
+        Title="Convert exe" Height="378" Width="904" Loaded="Window_Loaded" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
 
-    <Window.Resources>
-
-
-        <Style TargetType="ListBox" x:Key="nonScrollHor">
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"/>
-        </Style>
-
-        <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-
-
-            <Setter Property="BorderBrush" Value="#464646"></Setter>
-            <Setter Property="Background" Value="#464646"/>
-            <Setter Property="Foreground" Value="white"/>
-
-
-
-
-            <Setter Property="Template">
-
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type MenuItem}">
-
-                        <Border x:Name="Bd" Padding="17,0,17,0" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0 0 0 0" Background="{TemplateBinding Background}" SnapsToDevicePixels="True" Uid="Border_38">
-                            <ContentPresenter x:Name="ContentPresenter"  Content="{TemplateBinding Header}" ContentSource="Header" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Uid="ContentPresenter_33"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsHighlighted" Value="True">
-                                <Setter Property="Background" TargetName="Bd" Value="#262626"/>
-                                <Setter Property="BorderBrush" TargetName="Bd" Value="White"/>
-
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="BorderThickness" Value="0 0 0 0"/>
-        </Style>
-
-
-        <Style TargetType="TreeView">
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"></Setter>
-            <Setter Property="ScrollViewer.Background" Value="#262626"/>
-            <Setter Property="Background" Value="#262626"/>
-        </Style>
-
-        <Style TargetType="TreeViewItem">
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-
-        <Style TargetType="Label">
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-        <Style TargetType="TextBox">
-            <Setter Property="Background" Value="#262626"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-        <Style TargetType="Button">
-            <Setter Property="Background" Value="#303030"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-        <Style TargetType="ListBox">
-            <Setter Property="Background" Value="#303030"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-
-
-
-
-
-
-    </Window.Resources>
-
-
-    <Grid Background="#FF2C3348">
+    <Grid Margin="2">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="80*"/>
+            <ColumnDefinition Width="4"/>
             <ColumnDefinition Width="130*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="15*"/>
             <RowDefinition Height="157*"/>
         </Grid.RowDefinitions>
-
 
         <TreeView Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Name="treeBrowser" SelectedItemChanged="treeBrowser_SelectedItemChanged">
             <TreeView.ContextMenu>
@@ -104,30 +26,35 @@
                 </ContextMenu>
             </TreeView.ContextMenu>
         </TreeView>
-        <TextBlock Name="lab_invoke" Grid.Column="0" Grid.ColumnSpan="2" Foreground="White"/>
-        <Label Name="lab_output" Content="Выходной файл:" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <TextBox Name="txt_output" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="400" Margin="100 6 0 0"/>
-        <Button Name="btn_output" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Content="..." Width="40" Margin="0 5 10 0" Click="btn_output_Click"/>
-        <Button Name="btn_cancel" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="Отмена" Width="70" Click="btn_cancel_Click"/>
-        <Button Name="btn_invoke" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="Конвертировать" Width="120" Click="btn_invoke_Click"/>
 
-        <ComboBox Name="combo_main" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="150" Margin="0 0 0 200" SelectionChanged="combo_main_SelectionChanged">
-            <ComboBoxItem Content="ogf модель" Tag="ogf"/>
-            <ComboBoxItem Content="omf анимации" Tag="omf"/>
-            <ComboBoxItem Content="dm" Tag="dm"/>
-            <ComboBoxItem Content="level" Tag="level" Visibility="Hidden"/>
-            <ComboBoxItem Content="ogg-wav" Tag="ogg2wav" Visibility="Hidden"/>
-            <ComboBoxItem Content="dds-tga" Tag="dds2tga" Visibility="Visible"/>
-        </ComboBox>
+        <GridSplitter Grid.Column="1" Grid.Row="1" ResizeDirection="Columns"/>
+        
+        <TextBlock Name="lab_invoke" Grid.Column="0" Grid.ColumnSpan="3"/>
 
-        <ComboBox Name="combo_two" Grid.Row="1" Grid.Column="1" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Margin="161,43,0,0">
+        <HeaderedContentControl Grid.Row="1" Grid.Column="2" Header="Выходной файл" VerticalAlignment="Top">
+            <Grid>
+                <TextBox Name="txt_output" HorizontalAlignment="Stretch"/>
+                <Button Name="btn_output" HorizontalAlignment="Right" Content="..." Click="btn_output_Click"/>
+            </Grid>
+        </HeaderedContentControl>
 
-        </ComboBox>
+        <WrapPanel Grid.Row="1" Grid.Column="2" Margin="0,34" HorizontalAlignment="Stretch">
 
-        <ComboBox Name="combo_three" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="110" Height="22" Margin="303,43,0,0"/>
+            <ComboBox Name="combo_main" Width="150" SelectionChanged="combo_main_SelectionChanged" Margin="4,0">
+                <ComboBoxItem Content="ogf модель" Tag="ogf"/>
+                <ComboBoxItem Content="omf анимации" Tag="omf"/>
+                <ComboBoxItem Content="dm" Tag="dm"/>
+                <ComboBoxItem Content="level" Tag="level" Visibility="Hidden"/>
+                <ComboBoxItem Content="ogg-wav" Tag="ogg2wav" Visibility="Hidden"/>
+                <ComboBoxItem Content="dds-tga" Tag="dds2tga" Visibility="Visible"/>
+            </ComboBox>
 
+            <ComboBox Name="combo_two" Width="135" Margin="4,0"/>
 
-
-
+            <ComboBox Name="combo_three" Width="110" Margin="4,0"/>
+            
+        </WrapPanel>
+        <Button Grid.Row="1" Grid.Column="2" Name="btn_cancel" VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="Отмена" Click="btn_cancel_Click"/>
+        <Button Grid.Row="1" Grid.Column="2" Name="btn_invoke" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Конвертировать" Click="btn_invoke_Click"/>
     </Grid>
 </Window>

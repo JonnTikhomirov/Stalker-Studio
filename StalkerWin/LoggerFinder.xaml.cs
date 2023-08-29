@@ -23,6 +23,7 @@ namespace Stalker_Studio.StalkerWin
         public LoggerFinder()
         {
             InitializeComponent();
+            InterfaceHelper.InitializeWindow(this);
             Thread thAliver = new Thread(MainThread);
             thAnimation = new Thread(AnimationThread);
             thAnimation.Start();

@@ -23,6 +23,7 @@ namespace Stalker_Studio.StalkerWin.Import
         public ImportFile_Win(string pathProject, string[] pathSelected = null,string obrazPath = null)
         {
             InitializeComponent();
+            InterfaceHelper.InitializeWindow(this);
             PathProjectResources = pathProject;
             Selected = pathSelected;
             if (Directory.Exists(obrazPath))

@@ -23,6 +23,7 @@ namespace Stalker_Studio.StalkerWin
         public ReplaceOldLinkWin(string workPath,string excluseFile = null)
         {
             InitializeComponent();
+            InterfaceHelper.InitializeWindow(this);
             WorkPath = workPath;
             ExcluseFile = excluseFile;
             comMode.SelectedIndex = 0;

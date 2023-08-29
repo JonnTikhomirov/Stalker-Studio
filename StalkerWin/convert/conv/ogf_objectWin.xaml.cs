@@ -28,6 +28,7 @@ namespace Stalker_Studio.StalkerWin.convert.ogf
         public ogf_objectWin(string pathToMeshes)
         {
             InitializeComponent();
+            InterfaceHelper.InitializeWindow(this);
             DirMeshes = pathToMeshes;
 
             combo_two.Visibility = Visibility.Hidden;

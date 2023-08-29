@@ -5,52 +5,42 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stalker_Studio.StalkerWin"
         mc:Ignorable="d"
-        Title="Замена ссылок" Height="217" Width="455" Background="#353535" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
-
-    <Window.Resources>
-        <Style TargetType="Label">
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-        <Style TargetType="TextBox">
-            <Setter Property="Background" Value="#464646"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-        <Style TargetType="Button">
-            <Setter Property="Background" Value="#464646"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-    </Window.Resources>
+        Style="{DynamicResource style_Window}"
+        Title="Замена ссылок" Width="455" Height="200" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="60"/>
-            <RowDefinition Height="37*"/>
-            <RowDefinition Height="10*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="243*"/>
             <ColumnDefinition Width="242*"/>
         </Grid.ColumnDefinitions>
-        <Label Content="Старая ссылка" Grid.ColumnSpan="2" Margin="0,0,227,0"/>
-        <TextBox Margin="0,35,227,0" Name="txt_old_link" Grid.ColumnSpan="2" />
-        <Border BorderBrush="#252525" BorderThickness="1" Grid.ColumnSpan="2" Margin="0,0,227,0"/>
-        <Label Content="Новая ссылка" Grid.Column="1"/>
-        <TextBox Grid.Column="1" Margin="0,35,0,0" Name="txt_new_link"/>
-        <Border BorderBrush="#252525" BorderThickness="1" Grid.Column="1"/>
+        
+        <Border BorderThickness="0,0,1,0" Grid.Column="0" Padding="2">
+            <StackPanel Orientation="Vertical">
+                <Label Content="Старая ссылка" HorizontalAlignment="Center"/>
+                <TextBox Name="txt_old_link" HorizontalAlignment="Stretch"/>
+            </StackPanel>
+        </Border>
+        <Border BorderThickness="1,0,0,0" Grid.Column="1" Padding="2">
+            <StackPanel Orientation="Vertical">
+                <Label Content="Новая ссылка" HorizontalAlignment="Center"/>
+                <TextBox Name="txt_new_link" HorizontalAlignment="Stretch"/>
+            </StackPanel>
+        </Border>
 
-        <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="1" BorderBrush="#252525"/>
-
-        <Button Grid.Row="2"  Content="Назад" HorizontalAlignment="Left" Click="Button_Click"  />
+        <Button Grid.Row="2" Content="Назад" HorizontalAlignment="Left" Click="Button_Click"  />
         <Button Grid.Column="1" Grid.Row="2" Content="Заменить" HorizontalAlignment="Right" Name="btn_invoke" Click="btn_invoke_Click"/>
 
-        <TextBlock Name="textblock" Grid.Row="1" Grid.Column="0" Foreground="WhiteSmoke">
+        <TextBlock Name="textblock" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center">
             Замена ссылок в файлах.<LineBreak/>
             #include "old" на #include "new"
         </TextBlock>
 
-        <ComboBox Name="comMode" Grid.Row="1" Grid.Column="1" Width="150" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" SelectionChanged="comMode_SelectionChanged">
+        <ComboBox Name="comMode" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" SelectionChanged="comMode_SelectionChanged">
             <ComboBoxItem Content="#include"/>
             <ComboBoxItem Content="Полное упоминание"/>
         </ComboBox>

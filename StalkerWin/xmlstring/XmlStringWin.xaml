@@ -5,103 +5,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stalker_Studio.StalkerWin.xmlstring"
         mc:Ignorable="d"
-        Title="Работа с xml strings" Height="342" Width="750" Background="#404040" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+        Style="{DynamicResource style_Window}"
+        Title="Работа с xml strings" MinHeight="334" MinWidth="420" Height="334" Width="700" WindowStartupLocation="CenterOwner" >
 
-    <Window.Resources>
-
-
-        <Style TargetType="ListBox" x:Key="nonScrollHor">
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"/>
-        </Style>
-
-        <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
-            <Setter Property="OverridesDefaultStyle" Value="True"/>
-
-
-            <Setter Property="BorderBrush" Value="#464646"></Setter>
-            <Setter Property="Background" Value="#464646"/>
-            <Setter Property="Foreground" Value="white"/>
-
-
-            <Setter Property="Template">
-
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type MenuItem}">
-
-                        <Border x:Name="Bd" Padding="17,0,17,0" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0 0 0 0" Background="{TemplateBinding Background}" SnapsToDevicePixels="True" Uid="Border_38">
-                            <ContentPresenter x:Name="ContentPresenter"  Content="{TemplateBinding Header}" ContentSource="Header" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Uid="ContentPresenter_33"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsHighlighted" Value="True">
-                                <Setter Property="Background" TargetName="Bd" Value="#262626"/>
-                                <Setter Property="BorderBrush" TargetName="Bd" Value="White"/>
-
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="BorderThickness" Value="0 0 0 0"/>
-        </Style>
-
-
-        <Style TargetType="TreeView">
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"></Setter>
-            <Setter Property="ScrollViewer.Background" Value="#262626"/>
-            <Setter Property="Background" Value="#262626"/>
-        </Style>
-
-        <Style TargetType="TreeViewItem">
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-
-        <Style TargetType="Label">
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-        <Style TargetType="TextBox">
-            <Setter Property="Background" Value="#262626"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-        <Style TargetType="Button">
-            <Setter Property="Background" Value="#303030"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-        <Style TargetType="ListBox">
-            <Setter Property="Background" Value="#303030"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-
-
-
-
-
-
-
-    </Window.Resources>
-
-
-    <Grid>
+    <Grid Margin="2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*" MinHeight="270"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100*"/>
-            <ColumnDefinition Width="100*"/>
-            <ColumnDefinition Width="125*"/>
+            <ColumnDefinition Width="*" MinWidth="120"/>
+            <ColumnDefinition Width="4"/>
+            <ColumnDefinition Width="*" MinWidth="120"/>
+            <ColumnDefinition Width="4"/>
+            <ColumnDefinition Width="*" MinWidth="160"/>
         </Grid.ColumnDefinitions>
 
-        <Label Content="Доступные файлы" VerticalAlignment="Top" Grid.Column="0" HorizontalContentAlignment="Center"/>
-        <ListBox Grid.Column="0" VerticalAlignment="Bottom" Height="270" Name="list_files" SelectionChanged="list_files_SelectionChanged">
+        <Label Content="Доступные файлы" Grid.Row="0" Grid.Column="0" HorizontalContentAlignment="Center"/>
+        <ListBox Grid.Row="1" Grid.Column="0" VerticalAlignment="Stretch" Name="list_files" SelectionChanged="list_files_SelectionChanged">
             <ListBox.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Добавить файл" Name="mn_addFile" Click="mn_addFile_Click"/>
                 </ContextMenu>
             </ListBox.ContextMenu>
         </ListBox>
-
-        <Label Grid.Column="1" VerticalAlignment="Top" Content="ID" HorizontalContentAlignment="Center"/>
-        <ListBox Grid.Column="1" VerticalAlignment="Bottom" Height="270" Name="list_id" SelectionChanged="list_id_SelectionChanged">
+        
+        <GridSplitter Grid.Column="1" Grid.Row="1" ResizeDirection="Columns"/>
+        
+        <Label Grid.Row="0" Grid.Column="2" Content="ID" HorizontalContentAlignment="Center"/>
+        <ListBox Grid.Row="1" Grid.Column="2" VerticalAlignment="Stretch" Name="list_id" SelectionChanged="list_id_SelectionChanged">
             <ListBox.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Добавить" Name="nm_addID" Click="nm_addID_Click"/>
@@ -109,23 +41,25 @@
                 </ContextMenu>
             </ListBox.ContextMenu>
         </ListBox>
+        
+        <GridSplitter Grid.Column="3" Grid.Row="1" ResizeDirection="Columns"/>
+
+        <Label Grid.Row="0" Grid.Column="4" Content="Редактирование" HorizontalContentAlignment="Center"/>
 
         <!--Edit-->
-        <Grid Grid.Column="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="33*"/>
-                <RowDefinition Height="27*"/>
-                <RowDefinition Height="151*"/>
-                <RowDefinition Height="105*"/>
-            </Grid.RowDefinitions>
-            <Label VerticalAlignment="Top" Content="Редактирование" HorizontalContentAlignment="Center" Height="26"/>
-            <Label HorizontalAlignment="Left" Content="ID" Grid.Row="1" Width="33"/>
-            <TextBox Width="260" HorizontalAlignment="Right" Grid.Row="1" Name="txt_id" TextChanged="txt_id_TextChanged" KeyUp="txt_id_KeyUp"/>
-            <Label Grid.Row="2" VerticalAlignment="Top" Content="Текст" HorizontalContentAlignment="Center" Height="26"/>
-            <TextBox Grid.Row="2" VerticalAlignment="Bottom" Height="120" Name="txt_text" AcceptsReturn="False" TextChanged="txt_text_TextChanged" KeyUp="txt_text_KeyUp"/>
-            <Button Grid.Row="3" VerticalAlignment="Bottom" Content="Отмена" HorizontalAlignment="Left" Width="70" Click="Button_Click"/>
-            <Button Grid.Row="3" VerticalAlignment="Bottom" Content="Сохранить" Name="btn_save" HorizontalAlignment="Right" Width="70" Click="btn_save_Click"/>
-        </Grid>
+        <StackPanel Grid.Row="1" Grid.Column="4">
+
+            <HeaderedContentControl Header="ID">
+                <TextBox Name="txt_id" TextChanged="txt_id_TextChanged" KeyUp="txt_id_KeyUp" HorizontalAlignment="Stretch"/>
+            </HeaderedContentControl>
+            
+            <Label Content="Текст" HorizontalContentAlignment="Center"/>
+            <TextBox Height="120" Name="txt_text" AcceptsReturn="False" TextChanged="txt_text_TextChanged" KeyUp="txt_text_KeyUp" HorizontalAlignment="Stretch"/>
+            <Grid Margin="0,4,0,0">
+                <Button Content="Отмена" HorizontalAlignment="Left" Click="Button_Click"/>
+                <Button Content="Сохранить" Name="btn_save" HorizontalAlignment="Right" Click="btn_save_Click"/>
+            </Grid>
+        </StackPanel>
 
 
     </Grid>

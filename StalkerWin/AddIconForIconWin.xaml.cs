@@ -207,7 +207,7 @@ namespace Stalker_Studio.StalkerWin
             bts.Save(workDir + "\\tmp.png", System.Drawing.Imaging.ImageFormat.Png);
 
 
-            System.IO.File.WriteAllText($"{workDir}\\bat.bat", $"@chcp 1251{Environment.NewLine}cd {workDir}{Environment.NewLine}python DDS.py dtx3 dds tmp.png tmpDDS.png", Encoding.Default);
+            System.IO.File.WriteAllText($"{workDir}\\bat.bat", $"@chcp 1251{Environment.NewLine}cd {workDir}{Environment.NewLine}DDS.exe dtx3 dds tmp.png tmpDDS.png", Encoding.Default);
 
             ProcessStartInfo proc = new ProcessStartInfo($"{workDir}\\bat.bat") { CreateNoWindow = false,UseShellExecute = false,RedirectStandardOutput = true };
             Process prs = Process.Start(proc);

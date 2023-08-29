@@ -22,6 +22,7 @@ namespace Stalker_Studio.StalkerWin.xmlstring
         public XmlStringWin()
         {
             InitializeComponent();
+            InterfaceHelper.InitializeWindow(this);
             Initialize_ListFile(MainWindow.ProgramData.xmlStrings);
         }
 

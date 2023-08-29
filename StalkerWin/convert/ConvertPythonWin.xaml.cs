@@ -23,6 +23,7 @@ namespace Stalker_Studio.StalkerWin.convert
         public ConvertPythonWin(string pathW)
         {
             InitializeComponent();
+            InterfaceHelper.InitializeWindow(this);
             if (File.Exists(pathW))
                 PathWork = pathW;
             else if (Directory.Exists(pathW))

@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Stalker_Studio.StalkerWin"
         mc:Ignorable="d"
+        Style="{StaticResource style_Window}"
         Title="LoggerFinder" Height="310" Width="530">
     <Grid>
-        <TextBox Name="lab_log" HorizontalAlignment="Left" Foreground="Red" Margin="57,10,0,0" VerticalAlignment="Top" Height="165" Width="385"/>
+        <TextBox Name="lab_log" HorizontalAlignment="Stretch" Foreground="Red" Margin="45,10,0,0" VerticalAlignment="Stretch"/>
         <Image Name="img_anm" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="26" Margin="10,10,0,0"/>
     </Grid>
 </Window>
