@@ -1,0 +1,29 @@
+<Viewbox Width="89" Height="89" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:System="clr-namespace:System;assembly=mscorlib">
+    <Rectangle Width="89" Height="89">
+        <Rectangle.Resources>
+            <SolidColorBrush x:Key="canvas" Opacity="0" />
+            <SolidColorBrush x:Key="light-defaultgrey-10" Color="#212121" Opacity="0.1" />
+            <SolidColorBrush x:Key="light-defaultgrey" Color="#212121" Opacity="1" />
+            <System:Double x:Key="cls-1">0.75</System:Double>
+        </Rectangle.Resources>
+        <Rectangle.Fill>
+            <DrawingBrush Stretch="None">
+                <DrawingBrush.Drawing>
+                    <DrawingGroup>
+                        <DrawingGroup.Transform>
+                            <TransformGroup>
+                                <MatrixTransform Matrix="1 0 0 -1 -9000 2500"/>
+                                <ScaleTransform ScaleX="0.01" ScaleY="0.01"/>
+                            </TransformGroup>
+                        </DrawingGroup.Transform>
+                        <GeometryDrawing Brush="{DynamicResource brush_Selection}">
+                            <GeometryDrawing.Geometry>
+                                <PathGeometry Figures="m 9450.46 5941.67 c -7.15 -7 -16.75 -10.95 -26.73 -10.95 h -0.52 l -2244.52 28.89 c -10.64 0.15 -20.77 4.76 -27.92 12.73 -7.07 7.97 -10.57 18.61 -9.45 29.18 2.83 28.67 62.54 704 -584.81 1001.51 -9.45 4.31 -16.67 12.36 -20.1 22.18 -3.42 9.83 -2.6 20.62 2.16 29.85 l 1011.26 1966 c 9.15 17.95 30.59 25.69 48.91 17.58 18.76 -8.04 1873.09 -831.24 1863.11 -3069.95 -0.07 -10.2 -4.17 -19.88 -11.39 -27.02 z M 7853.66 3102.44 c -11.1 -8.34 -772.5 -562.77 -1866.47 -562.77 -515.41 0 -1104.54 123.07 -1723.88 484.3 -8.79 5.14 -15.12 13.55 -17.72 23.38 -2.54 9.83 -1.05 20.25 4.17 29.04 L 5397.1 5005.68 c 5.44 9.16 14.52 15.63 25.02 17.8 10.27 2.08 21.29 -0.08 30 -6.41 23.38 -16.67 578.48 -406.2 1159.71 5.81 8.49 6.03 19.13 8.19 29.26 6.33 10.2 -2.01 19.21 -8.04 24.79 -16.83 L 7862.89 3153.59 c 10.87 -16.83 6.85 -39.16 -9.23 -51.15 z M 2640 5854.71 l -1.86 -0.08 c -19.21 0 -35.59 14.37 -37.82 33.66 -2.46 20.25 -216.65 2037.76 1727.16 3148.49 8.86 4.98 19.43 6.47 29.11 3.57 9.75 -2.68 18.09 -9.23 23.08 -18.09 L 5476.84 7064.07 c 5.21 -9.3 6.25 -20.39 2.9 -30.52 -3.35 -10.13 -10.79 -18.46 -20.54 -22.86 -26.21 -11.83 -640.87 -297.87 -574.91 -1007.23 0.97 -10.35 -2.38 -20.62 -9.15 -28.51 -6.85 -7.82 -16.61 -12.59 -26.96 -13.03 z m 4106.44 145.25 c 0 -411.56 -334.88 -746.36 -746.44 -746.36 -411.56 0 -746.44 334.8 -746.44 746.36 0 411.56 334.88 746.44 746.44 746.44 411.56 0 746.44 -334.88 746.44 -746.44 z M 6000 9911.56 c -2156.82 0 -3911.53 -1754.71 -3911.53 -3911.6 0 -2156.82 1754.71 -3911.53 3911.53 -3911.53 2156.82 0 3911.53 1754.71 3911.53 3911.53 0 2156.89 -1754.71 3911.6 -3911.53 3911.6" FillRule="NonZero"/>
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+                </DrawingBrush.Drawing>
+            </DrawingBrush>
+        </Rectangle.Fill>
+    </Rectangle>
+</Viewbox>
