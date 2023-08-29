@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<SyntaxDefinition name="LTX" extensions=".ltx" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+	
+	<Color name="Constant" foreground="#3e8fd2"/>
+	<Color name="Digits" foreground="#b5c982"/>
+	<Color name="String" foreground="#cd9d7d"/>
+	<Color name="Comment" foreground="#57a64a"/>
+	<Color name="SectionName" foreground="#ea971a"/>
+	<Color name="Parent" foreground="#c17a40"/>
+	<Color name="Value" foreground="#f5f0c2"/>
+	
+	<RuleSet ignoreCase="true">
+		
+		<!--
+		
+			УСЛОВИЯ НЕ ТРОГАТЬ!!!
+			У SyntaxDefinition своеобразная логика выполнения регулярных выражений и их приоритета,  
+			правила подсветки сделаны методом проб и ошибок
+			
+			-->
+		<Keywords color="Constant">
+			<Word>true</Word>
+			<Word>false</Word>
+			<Word>on</Word>
+			<Word>off</Word>
+		</Keywords>
+		
+		<Span color="Constant">
+			<Begin>[^\w]false([^\w]|$)|[^\w]true([^\w]|$)|[^\w]on([^\w]|$)|[^\w]off([^\w]|$)</Begin>
+			<End>false|true|on|off|(?=[,;])</End>
+		</Span>	
+		<Span color="String">
+			<Begin>"</Begin>
+			<End>"</End>
+		</Span>
+		<Span color="Comment">
+			<Begin>;</Begin>
+		</Span>
+
+		<Rule color="SectionName">
+			(?&lt;=\[)(.+)(?=\])
+		</Rule>
+
+		<Span color="Parent">
+			<Begin>(?&lt;=\[.+\]\s?\:\s?.*)([a-z_0-9]+)</Begin>
+			<End>(?=[,;])</End>
+		</Span>
+
+		<Span color="Value">
+			<!--<Begin>(?&lt;=.*\={1}\s?.*[^\d]+)([A-Za-z_]+)</Begin>-->
+			<Begin>(?&lt;=\={1}\s*)([A-Za-z_])|(?&lt;=\={1}.*,\s*)([A-Za-z_])</Begin>
+			<End>(?=([^\w]on[^\w]?)+\s*)|(?=[,;])</End>
+		</Span>
+
+		<Rule color="Digits">
+			((?&lt;=.*\={1}\s?)([-eE]?[.]?[0-9]+[.]?[fFdD]?))|((?&lt;!\w)(?&lt;!\w-)([-eE]?[.]?[0-9]+[.]?[fFdD]?)(?!\w))
+		</Rule>
+
+	</RuleSet>
+
+</SyntaxDefinition>
